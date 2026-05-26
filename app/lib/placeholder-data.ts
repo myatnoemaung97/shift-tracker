@@ -50,3 +50,33 @@ export const jobs: Job[] = [
         created_at: new Date(),
     }
 ];
+
+export const shifts: Shift[] = [
+    {
+        id: "410544b2-4001-4271-9855-fec4b6a6442a",
+        job_id: jobs[0].id,
+        date: new Date("2026-06-01"),
+        start_time: new Date("2026-06-01T09:00:00"),
+        end_time: new Date("2026-06-01T13:00:00"),
+        break_minutes: 60,
+        created_at: new Date(),
+    },
+    {
+        id: "510544b2-4001-4271-9855-fec4b6a6442b",
+        job_id: jobs[1].id,
+        date: new Date("2026-06-14"),
+        start_time: new Date("2026-06-14T17:00:00"),
+        end_time: new Date("2026-06-14T22:00:00"),
+        break_minutes: 30,
+        created_at: new Date(),
+    },
+    {
+        id: "610544b2-4001-4271-9855-fec4b6a6442c",
+        job_id: jobs[2].id,
+        date: new Date("2026-06-20"),
+        start_time: new Date("2026-06-20T08:00:00"),
+        end_time: new Date("2026-06-20T14:00:00"),
+        break_minutes: 45,
+        created_at: new Date(),
+    }
+]

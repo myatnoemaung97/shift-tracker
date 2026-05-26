@@ -18,7 +18,6 @@ export type Job = {
 export type Shift = {
     id: string;
     job_id: string;
-    user_id: string;
     date: Date;
     start_time: Date;
     end_time: Date;
