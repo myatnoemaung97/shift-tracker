@@ -1,37 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import {
-  HomeIcon,
-  BriefcaseIcon,
-  CalendarDaysIcon,
-} from "@heroicons/react/24/outline";
-import {
-  HomeIcon as HomeIconActive,
-  BriefcaseIcon as BriefcaseIconActive,
-  CalendarDaysIcon as CalendarDaysIconActive,
-} from "@heroicons/react/24/solid";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { clsx } from "clsx";
-
-const links = [
-  {
-    name: "Home",
-    href: "/",
-    icon: { active: HomeIconActive, inactive: HomeIcon },
-  },
-  {
-    name: "Jobs",
-    href: "/jobs",
-    icon: { active: BriefcaseIconActive, inactive: BriefcaseIcon },
-  },
-  {
-    name: "Shifts",
-    href: "/shifts",
-    icon: { active: CalendarDaysIconActive, inactive: CalendarDaysIcon },
-  },
-];
+import { links } from "@/app/lib/links";
 
 export default function Sidenav() {
   const pathname = usePathname();
@@ -47,13 +20,13 @@ export default function Sidenav() {
           className="hidden md:block"
         />
       </Link>
-      <nav className="w-full h-full max-w-[500px] md:mt-10 md:h-auto">
-        <ul className="flex h-full justify-around md:flex-col md:gap-12 md:items-start md:w-full">
+      <nav className="w-full h-full md:mt-10 md:h-auto">
+        <ul className="flex h-full justify-around md:flex-col md:gap-2 md:items-start md:w-full">
           {links.map((link) => (
             <li
               key={link.name}
               className={clsx(`w-full hover:bg-blue-100 md:py-4 md:ps-[45px]`, {
-                "bg-sky-100 text-blue-600": pathname == link.href,
+                "bg-indigo-100 text-indigo-600": pathname == link.href,
               })}
             >
               <Link
@@ -61,9 +34,9 @@ export default function Sidenav() {
                 className="h-full flex justify-center flex-col items-center md:flex-row md:items-start md:justify-start md:gap-2"
               >
                 {pathname == link.href ? (
-                  <link.icon.active className="h-6 w-6" />
+                  <link.icon.active className="h-5 w-5" />
                 ) : (
-                  <link.icon.inactive className="h-6 w-6" />
+                  <link.icon.inactive className="h-5 w-5" />
                 )}
                 <span className="text-lg">{link.name}</span>
               </Link>
