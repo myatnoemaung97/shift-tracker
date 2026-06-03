@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { inter } from "@/app/ui/fonts";
 import "./globals.css";
-import Sidenav from "@/app/ui/navbar";
+import Navbar from "@/app/ui/navbar";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,8 +19,10 @@ export default function RootLayout({
       className={` h-full antialiased`}
     >
       <body className={`${inter.className} min-h-full flex flex-col`}>
-        <Sidenav />
-        {children}
+        <Navbar />
+        <main className="md:ms-[185px] mb-[60px]">
+          {children}
+        </main>
       </body>
     </html>
   );

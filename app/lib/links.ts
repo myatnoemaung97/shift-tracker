@@ -1,13 +1,14 @@
-import {
-  HomeIcon,
-  BriefcaseIcon,
-  CalendarDaysIcon,
-} from "@heroicons/react/24/outline";
-import {
-  HomeIcon as HomeIconActive,
-  BriefcaseIcon as BriefcaseIconActive,
-  CalendarDaysIcon as CalendarDaysIconActive,
-} from "@heroicons/react/24/solid";
+import { 
+    HiOutlineHome as HomeIcon,
+    HiHome as HomeIconActive,
+    HiOutlineBuildingOffice as BuildingOfficeIcon,
+    HiBuildingOffice as BuildingOfficeIconActive,
+    HiCalendarDays as CalendarDaysIcon,
+    HiOutlineCalendarDays as CalendarDaysIconActive,
+    HiOutlineCurrencyYen as CurrencyYenIcon,
+    HiCurrencyYen as CurrencyYenIconActive,
+ } from "react-icons/hi2";
+
 
 export const links = [
     {
@@ -18,7 +19,7 @@ export const links = [
     {
       name: "Jobs",
       href: "/jobs",
-      icon: { active: BriefcaseIconActive, inactive: BriefcaseIcon },
+      icon: { active: BuildingOfficeIconActive, inactive: BuildingOfficeIcon },
     },
     {
       name: "Shifts",
@@ -26,8 +27,8 @@ export const links = [
       icon: { active: CalendarDaysIconActive, inactive: CalendarDaysIcon },
     },
     {
-      name: "Shdifts",
-      href: "/shiftfs",
-      icon: { active: CalendarDaysIconActive, inactive: CalendarDaysIcon },
+      name: "Earnings",
+      href: "/earnings",
+      icon: { active: CurrencyYenIconActive, inactive: CurrencyYenIcon },
     },
 ]

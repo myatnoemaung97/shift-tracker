@@ -48,16 +48,19 @@ async function seedJobs(sql: any) {
   //     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
   //   );
   // `;
+ 
 
   const insertedJobs = await Promise.all(
     jobs.map(async (job) => {
       return sql`
         INSERT INTO jobs (id, user_id, name, hourly_wage, color, created_at)
         VALUES (${job.id}, ${job.user_id}, ${job.name}, ${job.hourly_wage}, ${job.color}, ${job.created_at})
-        ON CONFLICT (id) DO NOTHING;
+        ON CONFLICT (id) REPLACE;
       `;
     }),
   );
+
+  console.log("Inserted jobs:", insertedJobs);
 
   return insertedJobs;
 }
@@ -101,6 +104,7 @@ export async function wipe(sql: any) {
 }
 
 export async function GET() {
+  
   try {
     const result = await sql.begin((sql) => [
       seedUsers(sql),

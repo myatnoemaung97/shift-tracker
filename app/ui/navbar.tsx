@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { clsx } from "clsx";
 import { links } from "@/app/lib/links";
 
-export default function Sidenav() {
+export default function Navbar() {
   const pathname = usePathname();
 
   return (
@@ -21,17 +21,17 @@ export default function Sidenav() {
         />
       </Link>
       <nav className="w-full h-full md:mt-10 md:h-auto">
-        <ul className="flex h-full justify-around md:flex-col md:gap-2 md:items-start md:w-full">
+        <ul className="flex h-full justify-around md:flex-col md:items-start md:w-full">
           {links.map((link) => (
             <li
               key={link.name}
-              className={clsx(`w-full hover:bg-blue-100 md:py-4 md:ps-[45px]`, {
+              className={clsx(`w-full hover:bg-indigo-50 hover:text-indigo-500 transition-colors md:py-4 md:ps-[45px]`, {
                 "bg-indigo-100 text-indigo-600": pathname == link.href,
               })}
             >
               <Link
                 href={link.href}
-                className="h-full flex justify-center flex-col items-center md:flex-row md:items-start md:justify-start md:gap-2"
+                className="h-full flex justify-center flex-col items-center md:flex-row md:items-center md:justify-start md:gap-2"
               >
                 {pathname == link.href ? (
                   <link.icon.active className="h-5 w-5" />
