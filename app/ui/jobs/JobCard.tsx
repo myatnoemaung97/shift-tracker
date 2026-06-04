@@ -23,7 +23,7 @@ export default function JobCard({
           <h2 className="font-bold text-xl mb-2">{name}</h2>
           <div>
             <button className="bg-blue-500 text-white py-1 px-2 rounded-sm text-sm md:text-base">
-              Edit
+              Edits
             </button>
             <button className="bg-red-500 text-white py-1 px-2 rounded-sm ml-2 text-sm md:text-base">
               Delete
