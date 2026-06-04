@@ -1,9 +1,7 @@
-import { createJob } from "@/app/lib/actions";
-
 export default function Page() {
     return (
         <div>
-            <form action={createJob}>
+            <form>
                 <label htmlFor="name">Job Name:</label>
                 <input type="text" id="name" name="name" required />
 
