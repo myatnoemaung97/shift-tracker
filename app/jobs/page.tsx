@@ -2,6 +2,8 @@ import JobCard from "@/app/ui/jobs/JobCard";
 import Link from "next/link";
 import { prisma } from "@/app/lib/prisma";
 
+export const dynamic = "force-dynamic"
+
 export default async function Page() {
   const jobs = await prisma.job.findMany();
 

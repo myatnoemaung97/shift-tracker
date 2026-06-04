@@ -15,18 +15,12 @@ export default function JobCard({
   color: string;
 }) {
   return (
-    <div className={`mt-4 outline outline-gray-300 border-l-4 border-l-${color}-500 rounded-lg p-4 w-lg`}>
+    <div
+      className={`mt-4 outline outline-gray-300 border-l-4 border-l-${color}-500 rounded-lg p-4 w-lg`}
+    >
       <div className="flex items-start justify-between border-b border-gray-300 pb-3">
-        <div>
+        <div className="flex flex-col items-start">
           <h2 className="font-bold text-xl mb-2">{name}</h2>
-          <span className="bg-red-500/30 py-1 px-3 rounded-full text-sm">
-            Retail
-          </span>
-        </div>
-        <div className="flex flex-col items-end">
-          <div
-            className={`w-[20px] h-[20px] rounded-full mb-2 bg-${color}-500`}
-          ></div>
           <div>
             <button className="bg-blue-500 text-white py-1 px-2 rounded-sm text-sm md:text-base">
               Edit
@@ -36,6 +30,9 @@ export default function JobCard({
             </button>
           </div>
         </div>
+        <div
+          className={`w-[20px] h-[20px] rounded-full mb-2 bg-${color}-500`}
+        ></div>
       </div>
       <div className="flex justify-around mt-3">
         <JobInfoCard
