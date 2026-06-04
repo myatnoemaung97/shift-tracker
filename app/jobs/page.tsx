@@ -4,8 +4,6 @@ import { prisma } from "@/app/lib/prisma";
 
 export default async function Page() {
   const jobs = await prisma.job.findMany();
-  console.log("DIRECT_URL:", process.env["DIRECT_URL"]);
-  
 
   return (
     <div className="p-2">
