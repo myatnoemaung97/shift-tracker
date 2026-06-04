@@ -4,6 +4,7 @@ import {
   HiOutlineCalendar,
 } from "react-icons/hi2";
 import JobInfoCard from "@/app/ui/jobs/JobInfoCard";
+import { borderColorMap, circleColorMap } from "@/app/lib/colorMap";
 
 export default function JobCard({
   name,
@@ -16,7 +17,7 @@ export default function JobCard({
 }) {
   return (
     <div
-      className={`mt-4 outline outline-gray-300 border-l-4 border-l-${color}-500 rounded-lg p-4 w-lg`}
+      className={`mt-4 outline outline-gray-300 border-l-4 ${borderColorMap[color]} rounded-lg p-4 w-lg`}
     >
       <div className="flex items-start justify-between border-b border-gray-300 pb-3">
         <div className="flex flex-col items-start">
@@ -31,7 +32,7 @@ export default function JobCard({
           </div>
         </div>
         <div
-          className={`w-[20px] h-[20px] rounded-full mb-2 bg-${color}-500`}
+          className={`w-[20px] h-[20px] rounded-full mb-2 ${circleColorMap[color]}`}
         ></div>
       </div>
       <div className="flex justify-around mt-3">
