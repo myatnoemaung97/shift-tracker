@@ -1,10 +1,11 @@
-import { fetchJobs } from "@/app/lib/data";
-import { Job } from "@/app/lib/definitions";
 import JobCard from "@/app/ui/jobs/JobCard";
 import Link from "next/link";
+import { prisma } from "@/app/lib/prisma";
 
 export default async function Page() {
-  const jobs = await fetchJobs();
+  const jobs = await prisma.job.findMany();
+  console.log("DIRECT_URL:", process.env["DIRECT_URL"]);
+  
 
   return (
     <div className="p-2">

@@ -1,6 +1,7 @@
 import { prisma } from "@/app/lib/prisma";
 
 async function main() {
+  
   const alice = await prisma.user.upsert({
     where: { email: "alice@gmail.com" },
     update: {},
@@ -41,6 +42,42 @@ async function main() {
       hourly_wage: 1500,
       userId: alice.id,
     }
+  })
+
+  const restaurant = await prisma.job.upsert({
+    where: { name: "Restaurant" },
+    update: {},
+    create: {
+      name: "Restaurant",
+      color: "green",
+      hourly_wage: 1200,
+      userId: alice.id,
+    }
+  })
+
+  prisma.shift.deleteMany({})
+
+  const shift1 = await prisma.shift.createMany({
+    data: [
+      {
+        start: new Date("2026-06-01T09:00:00Z"),
+        end: new Date("2026-06-01T17:00:00Z"),
+        rest_minutes: 60,
+        jobId: lawson.id,
+      },
+      {
+        start: new Date("2026-06-02T10:00:00Z"),
+        end: new Date("2026-06-02T18:00:00Z"),
+        rest_minutes: 30,
+        jobId: hotel.id,
+      },
+      {
+        start: new Date("2026-06-03T11:00:00Z"),
+        end: new Date("2026-06-03T19:00:00Z"),
+        rest_minutes: 45,
+        jobId: restaurant.id,
+      },
+    ]
   })
 }
 main()
