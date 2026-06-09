@@ -17,8 +17,8 @@ model User {
   email     String   @unique
   name      String
   password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
   jobs      Job[]
 }
 
@@ -26,21 +26,21 @@ model Job {
   id          String   @id @default(uuid())
   name        String   @unique
   color       String
-  hourly_wage Float
-  userId      String
+  hourlyWage  Float    @map("hourly_wage")
+  userId      String   @map("user_id")
   user        User     @relation(fields: [userId], references: [id])
   shifts      Shift[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
 }
 
 model Shift {
   id           String   @id @default(uuid())
   start        DateTime
   end          DateTime
-  rest_minutes Int
-  jobId        String
+  restMinutes  Int      @map("rest_minutes")
+  jobId        String   @map("job_id")
   job          Job      @relation(fields: [jobId], references: [id])
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
 }

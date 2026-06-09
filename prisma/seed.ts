@@ -1,7 +1,6 @@
 import { prisma } from "@/app/lib/prisma";
 
 async function main() {
-  
   const alice = await prisma.user.upsert({
     where: { email: "alice@gmail.com" },
     update: {},
@@ -9,8 +8,8 @@ async function main() {
       email: "alice@gmail.com",
       name: "Alice",
       password: "password123",
-    }
-  })
+    },
+  });
 
   const bob = await prisma.user.upsert({
     where: { email: "bob@gmail.com" },
@@ -19,8 +18,8 @@ async function main() {
       email: "bob@gmail.com",
       name: "Bob",
       password: "password123",
-    }
-  })
+    },
+  });
 
   const lawson = await prisma.job.upsert({
     where: { name: "Lawson" },
@@ -28,10 +27,10 @@ async function main() {
     create: {
       name: "Lawson",
       color: "red",
-      hourly_wage: 1300,
+      hourlyWage: 1300,
       userId: alice.id,
-    }
-  })
+    },
+  });
 
   const hotel = await prisma.job.upsert({
     where: { name: "Hotel" },
@@ -39,10 +38,10 @@ async function main() {
     create: {
       name: "Hotel",
       color: "blue",
-      hourly_wage: 1500,
+      hourlyWage: 1500,
       userId: alice.id,
-    }
-  })
+    },
+  });
 
   const restaurant = await prisma.job.upsert({
     where: { name: "Restaurant" },
@@ -50,35 +49,35 @@ async function main() {
     create: {
       name: "Restaurant",
       color: "green",
-      hourly_wage: 1200,
+      hourlyWage: 1200,
       userId: alice.id,
-    }
-  })
+    },
+  });
 
-  prisma.shift.deleteMany({})
+  prisma.shift.deleteMany({});
 
   const shift1 = await prisma.shift.createMany({
     data: [
       {
         start: new Date("2026-06-01T09:00:00Z"),
         end: new Date("2026-06-01T17:00:00Z"),
-        rest_minutes: 60,
+        restMinutes: 60,
         jobId: lawson.id,
       },
       {
         start: new Date("2026-06-02T10:00:00Z"),
         end: new Date("2026-06-02T18:00:00Z"),
-        rest_minutes: 30,
+        restMinutes: 30,
         jobId: hotel.id,
       },
       {
         start: new Date("2026-06-03T11:00:00Z"),
         end: new Date("2026-06-03T19:00:00Z"),
-        rest_minutes: 45,
+        restMinutes: 45,
         jobId: restaurant.id,
       },
-    ]
-  })
+    ],
+  });
 }
 main()
   .then(async () => {

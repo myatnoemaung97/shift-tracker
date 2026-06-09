@@ -1,4 +1,4 @@
-import CreateJobForm from "@/app/ui/jobs/create-job-form";
+import CreateJobForm from "@/app/ui/jobs/create-form";
 
 export default function Page() {
   return (

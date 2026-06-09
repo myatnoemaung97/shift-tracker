@@ -5,12 +5,15 @@ import {
 } from "react-icons/hi2";
 import JobInfoCard from "@/app/ui/jobs/JobInfoCard";
 import { borderColorMap, circleColorMap } from "@/app/lib/colorMap";
+import { EditJob, DeleteJob } from "@/app/ui/jobs/buttons";
 
 export default function JobCard({
+  id,
   name,
   hourly_wage,
   color,
 }: {
+  id: string;
   name: string;
   hourly_wage: number;
   color: string;
@@ -22,13 +25,9 @@ export default function JobCard({
       <div className="flex items-start justify-between border-b border-gray-300 pb-3">
         <div className="flex flex-col items-start">
           <h2 className="font-bold text-xl mb-2">{name}</h2>
-          <div>
-            <button className="bg-blue-500 text-white py-1 px-2 rounded-sm text-sm md:text-base">
-              Edits
-            </button>
-            <button className="bg-red-500 text-white py-1 px-2 rounded-sm ml-2 text-sm md:text-base">
-              Delete
-            </button>
+          <div className="flex">
+            <EditJob id={id} />
+            <DeleteJob id={id} />
           </div>
         </div>
         <div

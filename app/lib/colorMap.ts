@@ -5,7 +5,7 @@ export const borderColorMap: Record<string, string> = {
   yellow: "border-l-yellow-500",
   purple: "border-l-purple-500",
   pink: "border-l-pink-500",
-}
+};
 
 export const circleColorMap: Record<string, string> = {
   red: "bg-red-500",
@@ -14,4 +14,6 @@ export const circleColorMap: Record<string, string> = {
   yellow: "bg-yellow-500",
   purple: "bg-purple-500",
   pink: "bg-pink-500",
-}
+};
+
+export const jobColors = ['red', 'blue', 'green', 'yellow', 'pink']

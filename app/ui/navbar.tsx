@@ -25,9 +25,12 @@ export default function Navbar() {
           {links.map((link) => (
             <li
               key={link.name}
-              className={clsx(`w-full hover:bg-indigo-50 hover:text-indigo-500 transition-colors md:py-4 md:ps-[45px]`, {
-                "bg-indigo-100 text-indigo-600": pathname == link.href,
-              })}
+              className={clsx(
+                `w-full hover:bg-indigo-50 hover:text-indigo-500 transition-colors md:py-4 md:ps-[45px]`,
+                {
+                  "bg-indigo-100 text-indigo-600": pathname == link.href,
+                },
+              )}
             >
               <Link
                 href={link.href}
