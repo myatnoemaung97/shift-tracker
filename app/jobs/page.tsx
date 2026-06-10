@@ -6,7 +6,7 @@ export default async function Page() {
   const jobs = await prisma.job.findMany();
 
   return (
-    <div className="p-2">
+    <div>
       <div className="mb-3">
         <div className="mb-4">
           <h1 className="font-bold text-2xl md:text-3xl">Jobs</h1>

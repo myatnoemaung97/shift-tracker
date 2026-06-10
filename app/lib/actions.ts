@@ -29,6 +29,7 @@ const UpdateJob = Job.omit({
 });
 
 export async function createJob(formData: FormData) {
+  console.log('*****create job function called*****')
   const { name, hourlyWage, color } = CreateJob.parse({
     name: formData.get("name"),
     hourlyWage: formData.get("hourlyWage"),
@@ -38,14 +39,21 @@ export async function createJob(formData: FormData) {
   const user = await prisma.user.findFirst();
 
   if (user) {
-    const result = await prisma.job.create({
-      data: {
-        name: name,
-        hourlyWage: hourlyWage,
-        color: color,
-        userId: user.id,
-      },
-    });
+    try {
+      await prisma.job.create({
+        data: {
+          name: name,
+          hourlyWage: hourlyWage,
+          color: color,
+          userId: user.id,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+      return {
+        message: "Database Error: Failed to Create Invoice.",
+      };
+    }
   }
 
   redirectAndRevalidate("/jobs");
@@ -58,21 +66,28 @@ export async function updateJob(id: string, formData: FormData) {
     color: formData.get("color"),
   });
 
-  await prisma.job.update({
-    where: {
-      id: id,
-    },
-    data: {
-      name: name,
-      hourlyWage: hourlyWage,
-      color: color,
-    },
-  });
+  try {
+    await prisma.job.update({
+      where: {
+        id: id,
+      },
+      data: {
+        name: name,
+        hourlyWage: hourlyWage,
+        color: color,
+      },
+    });
+  } catch (error) {
+    console.error(error);
+    return { message: "Database Error: Failed to Update Invoice." };
+  }
 
   redirectAndRevalidate("/jobs");
 }
 
 export async function deleteJob(id: string) {
+  throw new Error("Failed to Delete Invoice");
+
   await prisma.job.delete({
     where: {
       id: id,

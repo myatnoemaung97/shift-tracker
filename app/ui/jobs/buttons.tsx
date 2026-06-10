@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { deleteJob } from "@/app/lib/actions";
+import { FaRegEdit } from "react-icons/fa";
+import { HiOutlineTrash } from "react-icons/hi2";
 
 export function CreateJob() {
   return (
@@ -16,9 +18,10 @@ export function EditJob({ id }: { id: string }) {
   return (
     <Link
       href={`/jobs/${id}/edit`}
-      className="bg-blue-500 text-white py-1 px-2 rounded-sm text-sm md:text-base"
+      className="flex items-center bg-blue-500 text-white py-1 px-2 rounded-sm text-sm md:text-base"
     >
-      Edit
+      < FaRegEdit />
+      <span className="ms-1">Edit</span>
     </Link>
   );
 }
@@ -28,8 +31,9 @@ export function DeleteJob({ id }: { id: string }) {
 
   return (
     <form action={deleteJobWithId}>
-      <button className="bg-red-500 text-white py-1 px-2 rounded-sm ml-2 text-sm md:text-base">
-        Delete
+      <button className="flex items-center bg-red-500 text-white py-1 px-2 rounded-sm ml-2 text-sm md:text-base">
+        <HiOutlineTrash />
+        <span className="ms-1">Delete</span>
       </button>
     </form>
   );

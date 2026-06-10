@@ -1,5 +1,6 @@
 import EditJobForm from "@/app/ui/jobs/edit-form";
 import { prisma } from "@/app/lib/prisma";
+import { notFound } from "next/navigation";
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
@@ -12,7 +13,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   });
 
   if (!job) {
-    return <div>Job not found</div>;
+    notFound();
   }
 
   return <EditJobForm job={job} />;
