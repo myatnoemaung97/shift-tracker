@@ -4,7 +4,7 @@ import {
   HiOutlineCalendar,
 } from "react-icons/hi2";
 import JobInfoCard from "@/app/ui/jobs/JobInfoCard";
-import { borderColorMap, circleColorMap } from "@/app/lib/colorMap";
+import { colorMap, JobColor } from "@/app/lib/colorMap";
 import { EditJob, DeleteJob } from "@/app/ui/jobs/buttons";
 
 export default function JobCard({
@@ -18,9 +18,12 @@ export default function JobCard({
   hourly_wage: number;
   color: string;
 }) {
+  const style: { background: string; border: string; ring: string } =
+    colorMap[color as JobColor];
+
   return (
     <div
-      className={`mt-4 outline outline-gray-300 border-l-4 ${borderColorMap[color]} rounded-lg p-4 w-lg`}
+      className={`mt-4 outline outline-gray-300 border-l-4 ${style.border} rounded-lg p-4 w-lg`}
     >
       <div className="flex items-start justify-between border-b border-gray-300 pb-3">
         <div className="flex flex-col items-start">
@@ -31,13 +34,13 @@ export default function JobCard({
           </div>
         </div>
         <div
-          className={`w-[20px] h-[20px] rounded-full mb-2 ${circleColorMap[color]}`}
+          className={`w-[20px] h-[20px] rounded-full mb-2 ${style.background}`}
         ></div>
       </div>
       <div className="flex justify-around mt-3">
         <JobInfoCard
           Icon={HiOutlineClock}
-          label="Hourly Wage"
+          label="時給"
           value={`¥${String(hourly_wage)}`}
         />
         <JobInfoCard
@@ -47,7 +50,7 @@ export default function JobCard({
         />
         <JobInfoCard
           Icon={HiOutlineCalendar}
-          label="This Month"
+          label="今月"
           value="¥5,000"
         />
       </div>

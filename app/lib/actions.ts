@@ -1,14 +1,20 @@
 "use server";
 import { prisma } from "@/app/lib/prisma";
 import { z } from "zod";
-import { jobColors } from "@/app/lib/colorMap";
+import { colorMap } from "@/app/lib/colorMap";
 import { redirectAndRevalidate } from "@/app/lib/helpers";
 
 const Job = z.object({
   id: z.string(),
-  name: z.string(),
-  hourlyWage: z.coerce.number(),
-  color: z.literal(jobColors),
+  name: z.string().trim().min(1, {
+    error: "勤務先の名前は必須です。",
+  }),
+  hourlyWage: z.coerce.number().gt(0, {
+    error: "時給は0以上である必要があります。",
+  }),
+  color: z.literal(Object.keys(colorMap), {
+    error: "色を選択してください。",
+  }),
   userId: z.string(),
   createdAt: z.iso.datetime(),
   updatedAt: z.iso.datetime(),
@@ -28,13 +34,46 @@ const UpdateJob = Job.omit({
   updatedAt: true,
 });
 
-export async function createJob(formData: FormData) {
-  console.log('*****create job function called*****')
-  const { name, hourlyWage, color } = CreateJob.parse({
+export type State = {
+  errors?: {
+    name?: string[];
+    hourlyWage?: string[];
+    color?: string[];
+  };
+  values?: {
+    name?: string;
+    hourlyWage?: string;
+    color?: string;
+  };
+  message?: string | null;
+};
+
+export async function createJob(
+  prevState: State | undefined,
+  formData: FormData,
+) {
+  const validatedFields = CreateJob.safeParse({
     name: formData.get("name"),
     hourlyWage: formData.get("hourlyWage"),
     color: formData.get("color"),
   });
+
+  console.log(prevState);
+
+  // If form validation fails, return errors early. Otherwise, continue.
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      values: {
+        name: formData.get("name")?.toString() ?? "",
+        hourlyWage: formData.get("hourlyWage")?.toString() ?? "",
+        color: formData.get("color")?.toString() ?? "",
+      },
+      message: "Missing Fields. Failed to Create Invoice.",
+    };
+  }
+
+  const { name, hourlyWage, color } = validatedFields.data;
 
   const user = await prisma.user.findFirst();
 
@@ -86,8 +125,6 @@ export async function updateJob(id: string, formData: FormData) {
 }
 
 export async function deleteJob(id: string) {
-  throw new Error("Failed to Delete Invoice");
-
   await prisma.job.delete({
     where: {
       id: id,

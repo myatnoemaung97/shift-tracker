@@ -9,9 +9,11 @@ export default async function Page() {
     <div>
       <div className="mb-3">
         <div className="mb-4">
-          <h1 className="font-bold text-2xl md:text-3xl">Jobs</h1>
+          <h1 className="font-bold text-2xl md:text-3xl">勤務先一覧</h1>
         </div>
-        <CreateJob />
+        <div className="flex justify-start">
+          <CreateJob />
+        </div>
       </div>
 
       <div className="flex flex-wrap gap-4">
@@ -23,7 +25,7 @@ export default async function Page() {
               name={job.name}
               hourly_wage={job.hourlyWage}
               color={job.color}
-            /> 
+            />
           );
         })}
       </div>
