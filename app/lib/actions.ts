@@ -98,12 +98,30 @@ export async function createJob(
   redirectAndRevalidate("/jobs");
 }
 
-export async function updateJob(id: string, formData: FormData) {
-  const { name, hourlyWage, color } = UpdateJob.parse({
+export async function updateJob(
+  id: string,
+  prevState: State | undefined,
+  formData: FormData,
+) {
+  const validatedFields = UpdateJob.safeParse({
     name: formData.get("name"),
     hourlyWage: formData.get("hourlyWage"),
     color: formData.get("color"),
   });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      values: {
+        name: formData.get("name")?.toString() ?? "",
+        hourlyWage: formData.get("hourlyWage")?.toString() ?? "",
+        color: formData.get("color")?.toString() ?? "",
+      },
+      message: "Missing Fields. Failed to Create Invoice.",
+    };
+  }
+
+  const { name, hourlyWage, color } = validatedFields.data;
 
   try {
     await prisma.job.update({

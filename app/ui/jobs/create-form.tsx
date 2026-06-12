@@ -27,6 +27,7 @@ export default function Page() {
         name="name"
         defaultValue={state?.values?.name}
         aria-describedby="name-error"
+        required
       />
       <div id="name-error" aria-live="polite" aria-atomic="true">
         {state?.errors?.name &&
@@ -48,6 +49,7 @@ export default function Page() {
         name="hourlyWage"
         defaultValue={state?.values?.hourlyWage}
         aria-describedby="name-error"
+        required
       />
       <div id="name-error" aria-live="polite" aria-atomic="true">
         {state?.errors?.hourlyWage &&

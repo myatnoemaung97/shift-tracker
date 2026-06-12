@@ -1,19 +1,25 @@
 "use client";
 
 import type { Job } from "@/app/generated/prisma/browser";
-import { updateJob } from "@/app/lib/actions";
+import { updateJob, State } from "@/app/lib/actions";
 import { colorMap } from "@/app/lib/colorMap";
 import { useState } from "react";
 import { clsx } from "clsx";
 import { FaCheck } from "react-icons/fa6";
+import { useActionState } from "react";
 
 export default function EditJobForm({ job }: { job: Job }) {
-  const [selectedColor, setSelectedColor] = useState(job.color);
   const updateJobWithId = updateJob.bind(null, job.id);
+
+  const initialState: State = { values: {}, errors: {}, message: null };
+  const [state, formAction] = useActionState(updateJobWithId, initialState);
+  const [selectedColor, setSelectedColor] = useState(
+    state?.values?.color ?? job.color,
+  );
 
   return (
     <form
-      action={updateJobWithId}
+      action={formAction}
       className="flex flex-col border border-gray-100 shadow-2xl rounded-lg p-3"
     >
       <label htmlFor="name">
@@ -25,9 +31,16 @@ export default function EditJobForm({ job }: { job: Job }) {
         type="text"
         id="name"
         name="name"
-        required
-        defaultValue={job.name}
+        defaultValue={state?.values?.name ?? job.name}
       />
+      <div id="name-error" aria-live="polite" aria-atomic="true">
+        {state?.errors?.name &&
+          state.errors.name.map((error: string) => (
+            <p className="mt-2 text-sm text-red-500" key={error}>
+              {error}
+            </p>
+          ))}
+      </div>
 
       <label htmlFor="hourlyWage" className="mt-2">
         <span className="font-semibold">時給（円）:</span>
@@ -38,9 +51,16 @@ export default function EditJobForm({ job }: { job: Job }) {
         type="number"
         id="hourlyWage"
         name="hourlyWage"
-        defaultValue={job.hourlyWage}
-        required
+        defaultValue={state?.values?.hourlyWage ?? job.hourlyWage}
       />
+      <div id="name-error" aria-live="polite" aria-atomic="true">
+        {state?.errors?.hourlyWage &&
+          state.errors.hourlyWage.map((error: string) => (
+            <p className="mt-2 text-sm text-red-500" key={error}>
+              {error}
+            </p>
+          ))}
+      </div>
 
       <label htmlFor="color" className="mt-2">
         <span className="font-semibold">色:</span>
@@ -73,6 +93,14 @@ export default function EditJobForm({ job }: { job: Job }) {
       <span className="text-sm text-gray-500 mt-1">
         選択した色は、カレンダーや一覧で勤務先を見分けるために使用されます。
       </span>
+      <div id="name-error" aria-live="polite" aria-atomic="true">
+        {state?.errors?.color &&
+          state.errors.color.map((error: string) => (
+            <p className="mt-2 text-sm text-red-500" key={error}>
+              {error}
+            </p>
+          ))}
+      </div>
       <button
         className="border mt-5 py-2 rounded bg-indigo-500 text-white hover:bg-indigo-400 transition:colors"
         type="submit"
