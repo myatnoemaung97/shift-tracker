@@ -21,35 +21,38 @@ async function main() {
     },
   });
 
-  const lawson = await prisma.job.upsert({
-    where: { name: "Lawson" },
-    update: {},
-    create: {
+  const lawson = await prisma.job.create({
+    data: {
       name: "Lawson",
       color: "red",
       hourlyWage: 1300,
+      defaultStart: "9:00",
+      defaultEnd: "17:00",
+      defaultRestMinutes: 60,
       userId: alice.id,
     },
   });
 
-  const hotel = await prisma.job.upsert({
-    where: { name: "Hotel" },
-    update: {},
-    create: {
+  const hotel = await prisma.job.create({
+    data: {
       name: "Hotel",
       color: "blue",
       hourlyWage: 1500,
+      defaultStart: "10:00",
+      defaultEnd: "18:00",
+      defaultRestMinutes: 30,
       userId: alice.id,
     },
   });
 
-  const restaurant = await prisma.job.upsert({
-    where: { name: "Restaurant" },
-    update: {},
-    create: {
+  const restaurant = await prisma.job.create({
+    data: {
       name: "Restaurant",
       color: "green",
       hourlyWage: 1200,
+      defaultStart: "11:00",
+      defaultEnd: "19:00",
+      defaultRestMinutes: 45,
       userId: alice.id,
     },
   });

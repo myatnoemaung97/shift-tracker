@@ -3,7 +3,11 @@ import { prisma } from "@/app/lib/prisma";
 import { CreateJob } from "@/app/ui/jobs/buttons";
 
 export default async function Page() {
-  const jobs = await prisma.job.findMany();
+  const jobs = (await prisma.job.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+  }));
 
   return (
     <div>
@@ -18,15 +22,7 @@ export default async function Page() {
 
       <div className="flex flex-wrap gap-4">
         {jobs.map((job) => {
-          return (
-            <JobCard
-              key={job.id}
-              id={job.id}
-              name={job.name}
-              hourly_wage={job.hourlyWage}
-              color={job.color}
-            />
-          );
+          return <JobCard key={job.id} job={job} />;
         })}
       </div>
     </div>

@@ -15,6 +15,9 @@ const Job = z.object({
   color: z.literal(Object.keys(colorMap), {
     error: "色を選択してください。",
   }),
+  defaultStart: z.string().optional(),
+  defaultEnd: z.string().optional(),
+  defaultRestMinutes: z.coerce.number().optional(),
   userId: z.string(),
   createdAt: z.iso.datetime(),
   updatedAt: z.iso.datetime(),
@@ -44,6 +47,9 @@ export type State = {
     name?: string;
     hourlyWage?: string;
     color?: string;
+    defaultStart?: string;
+    defaultEnd?: string;
+    defaultRestMinutes?: string;
   };
   message?: string | null;
 };
@@ -56,9 +62,10 @@ export async function createJob(
     name: formData.get("name"),
     hourlyWage: formData.get("hourlyWage"),
     color: formData.get("color"),
+    defaultStart: formData.get("defaultStart"),
+    defaultEnd: formData.get("defaultEnd"),
+    defaultRestMinutes: formData.get("defaultRestMinutes"),
   });
-
-  console.log(prevState);
 
   // If form validation fails, return errors early. Otherwise, continue.
   if (!validatedFields.success) {
@@ -68,12 +75,23 @@ export async function createJob(
         name: formData.get("name")?.toString() ?? "",
         hourlyWage: formData.get("hourlyWage")?.toString() ?? "",
         color: formData.get("color")?.toString() ?? "",
+        defaultStart: formData.get("defaultStart")?.toString() ?? "",
+        defaultEnd: formData.get("defaultEnd")?.toString() ?? "",
+        defaultRestMinutes:
+          formData.get("defaultRestMinutes")?.toString() ?? "",
       },
-      message: "Missing Fields. Failed to Create Invoice.",
+      message: "勤務先を作成できませんでした。入力内容を確認してください。",
     };
   }
 
-  const { name, hourlyWage, color } = validatedFields.data;
+  const {
+    name,
+    hourlyWage,
+    color,
+    defaultStart,
+    defaultEnd,
+    defaultRestMinutes,
+  } = validatedFields.data;
 
   const user = await prisma.user.findFirst();
 
@@ -85,12 +103,15 @@ export async function createJob(
           hourlyWage: hourlyWage,
           color: color,
           userId: user.id,
+          defaultStart: defaultStart?.toString() || null,
+          defaultEnd: defaultEnd?.toString() || null,
+          defaultRestMinutes: defaultRestMinutes || null,
         },
       });
     } catch (error) {
       console.error(error);
       return {
-        message: "Database Error: Failed to Create Invoice.",
+        message: "勤務先を作成できませんでした。入力内容を確認してください。",
       };
     }
   }
@@ -107,6 +128,9 @@ export async function updateJob(
     name: formData.get("name"),
     hourlyWage: formData.get("hourlyWage"),
     color: formData.get("color"),
+    defaultStart: formData.get("defaultStart"),
+    defaultEnd: formData.get("defaultEnd"),
+    defaultRestMinutes: formData.get("defaultRestMinutes"),
   });
 
   if (!validatedFields.success) {
@@ -116,12 +140,23 @@ export async function updateJob(
         name: formData.get("name")?.toString() ?? "",
         hourlyWage: formData.get("hourlyWage")?.toString() ?? "",
         color: formData.get("color")?.toString() ?? "",
+        defaultStart: formData.get("defaultStart")?.toString() ?? "",
+        defaultEnd: formData.get("defaultEnd")?.toString() ?? "",
+        defaultRestMinutes:
+          formData.get("defaultRestMinutes")?.toString() ?? "",
       },
-      message: "Missing Fields. Failed to Create Invoice.",
+      message: "勤務先を更新できませんでした。入力内容を確認してください。",
     };
   }
 
-  const { name, hourlyWage, color } = validatedFields.data;
+  const {
+    name,
+    hourlyWage,
+    color,
+    defaultStart,
+    defaultEnd,
+    defaultRestMinutes,
+  } = validatedFields.data;
 
   try {
     await prisma.job.update({
@@ -132,6 +167,9 @@ export async function updateJob(
         name: name,
         hourlyWage: hourlyWage,
         color: color,
+        defaultStart: defaultStart?.toString() || null,
+        defaultEnd: defaultEnd?.toString() || null,
+        defaultRestMinutes: defaultRestMinutes || null,
       },
     });
   } catch (error) {

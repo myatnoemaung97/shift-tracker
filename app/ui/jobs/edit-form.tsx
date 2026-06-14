@@ -32,6 +32,7 @@ export default function EditJobForm({ job }: { job: Job }) {
         id="name"
         name="name"
         defaultValue={state?.values?.name ?? job.name}
+        required
       />
       <div id="name-error" aria-live="polite" aria-atomic="true">
         {state?.errors?.name &&
@@ -42,7 +43,7 @@ export default function EditJobForm({ job }: { job: Job }) {
           ))}
       </div>
 
-      <label htmlFor="hourlyWage" className="mt-2">
+      <label htmlFor="hourlyWage" className="mt-4">
         <span className="font-semibold">時給（円）:</span>
         <span className="text-red-500">*</span>
       </label>
@@ -52,6 +53,7 @@ export default function EditJobForm({ job }: { job: Job }) {
         id="hourlyWage"
         name="hourlyWage"
         defaultValue={state?.values?.hourlyWage ?? job.hourlyWage}
+        required
       />
       <div id="name-error" aria-live="polite" aria-atomic="true">
         {state?.errors?.hourlyWage &&
@@ -62,7 +64,51 @@ export default function EditJobForm({ job }: { job: Job }) {
           ))}
       </div>
 
-      <label htmlFor="color" className="mt-2">
+      <div className="grid grid-cols-1 gap-4 mt-4 md:grid-cols-2">
+        <div className="flex flex-col">
+          <label htmlFor="defaultStart">
+            <span className="font-semibold">
+              通常の開始 <span className="font-normal">(任意)</span>:
+            </span>
+          </label>
+          <input
+            className="border mt-1 border border-gray-300 rounded h-10 ps-2"
+            type="time"
+            id="defaultStart"
+            name="defaultStart"
+            defaultValue={state?.values?.defaultStart ?? job.defaultStart?.toString()}
+          />
+        </div>
+        <div className="flex flex-col">
+          <label htmlFor="defaultEnd">
+            <span className="font-semibold">
+              通常の終了 <span className="font-normal">(任意)</span>:
+            </span>
+          </label>
+          <input
+            className="border mt-1 border border-gray-300 rounded h-10 ps-2"
+            type="time"
+            id="defaultEnd"
+            name="defaultEnd"
+            defaultValue={state?.values?.defaultEnd ?? job.defaultEnd?.toString()}
+          />
+        </div>
+      </div>
+
+      <label htmlFor="defaultRestMinutes" className="mt-4">
+        <span className="font-semibold">通常の休憩(分)</span>
+        <span className="ms-1">(任意)</span>
+        <span className="font-semibold">:</span>
+      </label>
+      <input
+        className="border mt-1 border border-gray-300 rounded h-10 ps-2"
+        type="number"
+        id="defaultRestMinutes"
+        name="defaultRestMinutes"
+        defaultValue={state?.values?.defaultRestMinutes ?? job.defaultRestMinutes?.toString()}
+      />
+
+      <label htmlFor="color" className="mt-4">
         <span className="font-semibold">色:</span>
         <span className="text-red-500">*</span>
       </label>
@@ -100,6 +146,11 @@ export default function EditJobForm({ job }: { job: Job }) {
               {error}
             </p>
           ))}
+      </div>
+      <div id="name-error" aria-live="polite" aria-atomic="true">
+        {state?.message && (
+          <p className="mt-2 text-sm text-red-500">{state.message}</p>
+        )}
       </div>
       <button
         className="border mt-5 py-2 rounded bg-indigo-500 text-white hover:bg-indigo-400 transition:colors"
