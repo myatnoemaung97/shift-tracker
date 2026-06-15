@@ -107,6 +107,14 @@ export default function Page() {
         name="defaultRestMinutes"
         defaultValue={state?.values?.defaultRestMinutes}
       />
+      <div id="name-error" aria-live="polite" aria-atomic="true">
+        {state?.errors?.defaultRestMinutes &&
+          state.errors.defaultRestMinutes.map((error: string) => (
+            <p className="mt-2 text-sm text-red-500" key={error}>
+              {error}
+            </p>
+          ))}
+      </div>
 
       <label htmlFor="color" className="mt-4">
         <span className="font-semibold">色:</span>

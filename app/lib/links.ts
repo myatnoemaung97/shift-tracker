@@ -9,6 +9,8 @@ import {
   HiCurrencyYen as CurrencyYenIconActive,
 } from "react-icons/hi2";
 
+const today = new Date();
+
 export const links = [
   {
     name: "ホーム",
@@ -22,7 +24,7 @@ export const links = [
   },
   {
     name: "シフト",
-    href: "/shifts",
+    href: '/shifts',
     icon: { active: CalendarDaysIconActive, inactive: CalendarDaysIcon },
   },
   {

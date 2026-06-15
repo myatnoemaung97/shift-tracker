@@ -17,7 +17,12 @@ const Job = z.object({
   }),
   defaultStart: z.string().optional(),
   defaultEnd: z.string().optional(),
-  defaultRestMinutes: z.coerce.number().optional(),
+  defaultRestMinutes: z.coerce
+    .number()
+    .gt(0, {
+      error: "通常の休憩は0以上である必要があります。",
+    })
+    .optional(),
   userId: z.string(),
   createdAt: z.iso.datetime(),
   updatedAt: z.iso.datetime(),
@@ -42,6 +47,7 @@ export type State = {
     name?: string[];
     hourlyWage?: string[];
     color?: string[];
+    defaultRestMinutes?: string[];
   };
   values?: {
     name?: string;

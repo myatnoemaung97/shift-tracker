@@ -8,11 +8,6 @@ import { links } from "@/app/lib/links";
 
 export default function Navbar() {
   const pathname = usePathname();
-  links.map((link) =>
-    console.log(
-      `pathname: ${pathname}. href: ${link.href}. ${pathname.startsWith(link.href)}`,
-    ),
-  );
 
   return (
     <aside className="bg-[#FAFAFC] fixed bottom-0 left-0 right-0 h-[60px] flex justify-center items-center md:flex-col md:justify-start md:items-center md:top-0 md:left-0 md:w-[185px] md:h-screen">
@@ -44,9 +39,11 @@ export default function Navbar() {
                 href={link.href}
                 className="h-full flex justify-center flex-col items-center md:flex-row md:items-center md:justify-start md:gap-2"
               >
-                {(link.href === "/" ? (
-                  pathname === "/"
-                ) : pathname.startsWith(link.href)) ? (
+                {(
+                  link.href === "/"
+                    ? pathname === "/"
+                    : pathname.startsWith(link.href)
+                ) ? (
                   <link.icon.active className="h-5 w-5" />
                 ) : (
                   <link.icon.inactive className="h-5 w-5" />
