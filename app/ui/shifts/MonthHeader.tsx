@@ -1,12 +1,8 @@
 "use client";
 
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import {
-  useSearchParams,
-  redirect,
-  useRouter,
-  usePathname,
-} from "next/navigation";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import { clsx } from "clsx";
 
 export default function MonthHeader() {
   const today = new Date();
@@ -15,6 +11,9 @@ export default function MonthHeader() {
   const month = Number(searchParams.get("month"));
   const { replace } = useRouter();
   const pathname = usePathname();
+
+  const isCurrentMonth =
+    year === today.getFullYear() && month === today.getMonth() + 1;
 
   function handleClick(direction: "left" | "right") {
     const date = new Date(year, month - 1);
@@ -29,25 +28,29 @@ export default function MonthHeader() {
     replace(`${pathname}?${params.toString()}`);
   }
 
+  const isDisabled =
+    year === today.getFullYear() && month === today.getMonth() + 1;
+
   return (
     <div className="p-3 flex justify-between items-center">
       <button
-        disabled={
-          year === today.getFullYear() && month === today.getMonth() + 1
-        }
+        disabled={isDisabled}
         type="button"
         onClick={() => handleClick("left")}
-        className="w-10 h-10 border border-gray-100 shadow-xs rounded-md flex items-center justify-center cursor-pointer"
+        className={clsx(
+          "w-10 h-10 border border-gray-200 shadow-xs rounded-md flex items-center justify-center",
+          isDisabled ? "text-gray-400 cursor-default" : "cursor-pointer",
+        )}
       >
         <FaChevronLeft />
       </button>
       <span className="text-lg font-semibold">
-        {year}年{month}月
+        {year}年 {month}月
       </span>
       <button
         type="button"
         onClick={() => handleClick("right")}
-        className="w-10 h-10 border border-gray-100 shadow-xs rounded-md flex items-center justify-center cursor-pointer"
+        className="w-10 h-10 border border-gray-200 shadow-xs rounded-md flex items-center justify-center cursor-pointer"
       >
         <FaChevronRight />
       </button>
