@@ -1,5 +1,7 @@
 import { useSearchParams } from "next/navigation";
 import clsx from "clsx";
+import CalendarCell from "@/app/ui/shifts/CalendarCell";
+import { cellIndexToDate } from "@/app/lib/calendarUtils";
 
 export default function Calendar() {
   const searchParams = useSearchParams();
@@ -16,36 +18,17 @@ export default function Calendar() {
     { day: 6, name: "土" },
   ];
 
-  function cellIndexToDate(cellIndex: number, year: number, month: number) {
-    const firstDay = new Date(year, month, 1);
-
-    const firstVisibleDate = new Date(
-      firstDay.getFullYear(),
-      firstDay.getMonth(),
-      firstDay.getDate() - firstDay.getDay(),
-    );
-
-    const date = new Date(firstVisibleDate);
-    date.setDate(firstVisibleDate.getDate() + cellIndex);
-
-    return date;
-  }
-
   const cells = Array.from({ length: 42 }, (_, i) => ({
     index: i,
     date: cellIndexToDate(i, urlYear, urlMonth - 1),
   }));
 
-  const testCell = cellIndexToDate(37, urlYear, urlMonth - 1);
-
-  console.log(`${testCell.getMonth()}/${testCell.getDate()}`);
-
   return (
     <>
-      <div className="grid grid-cols-7 gap-2">
+      <div className="grid grid-cols-7 gap-2 border-b border-gray-200">
         {daysInAWeek.map(({ day, name }) => (
           <div
-            className={clsx("font-semibold text-center", {
+            className={clsx("font-bold text-end me-1", {
               "text-red-500": day === 0 || day === 6,
             })}
             key={day}
@@ -54,11 +37,9 @@ export default function Calendar() {
           </div>
         ))}
       </div>
-      <div className="grid grid-cols-7 gap-2">
+      <div className="grid grid-cols-7 gap-2 mt-2 divide-x divide-y divide-gray-200 ">
         {cells.map(({ index, date }) => (
-          <div className="text-center text-sm" key={index}>
-            {date.getMonth() + 1}/{date.getDate()}({index})
-          </div>
+          <CalendarCell key={index} date={date} />
         ))}
       </div>
     </>

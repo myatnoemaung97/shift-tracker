@@ -14,7 +14,7 @@ export default function Calendar() {
   }
 
   return (
-    <div className="border border-gray-100 shadow-xl rounded-lg">
+    <div className="border border-gray-100 shadow-xl rounded-lg px-2">
       <MonthHeader />
       <CalendarGrid />
     </div>

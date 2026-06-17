@@ -12,9 +12,6 @@ export default function MonthHeader() {
   const { replace } = useRouter();
   const pathname = usePathname();
 
-  const isCurrentMonth =
-    year === today.getFullYear() && month === today.getMonth() + 1;
-
   function handleClick(direction: "left" | "right") {
     const date = new Date(year, month - 1);
 

@@ -10,7 +10,7 @@ export default function Navbar() {
   const pathname = usePathname();
 
   return (
-    <aside className="bg-[#FAFAFC] fixed bottom-0 left-0 right-0 h-[60px] flex justify-center items-center md:flex-col md:justify-start md:items-center md:top-0 md:left-0 md:w-[185px] md:h-screen">
+    <aside className="bg-[#FAFAFC] fixed bottom-0 left-0 right-0 h-[50px] flex justify-center items-center md:flex-col md:justify-start md:items-center md:top-0 md:left-0 md:w-[165px] md:h-screen">
       <Link href="/">
         <Image
           src="/shifto-logo.png"
@@ -48,7 +48,7 @@ export default function Navbar() {
                 ) : (
                   <link.icon.inactive className="h-5 w-5" />
                 )}
-                <span className="text-lg">{link.name}</span>
+                <span className="text-sm md:text-base">{link.name}</span>
               </Link>
             </li>
           ))}
