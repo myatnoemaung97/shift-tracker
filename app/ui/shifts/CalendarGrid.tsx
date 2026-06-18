@@ -1,13 +1,8 @@
-import { useSearchParams } from "next/navigation";
 import clsx from "clsx";
 import CalendarCell from "@/app/ui/shifts/CalendarCell";
 import { cellIndexToDate } from "@/app/lib/calendarUtils";
 
-export default function Calendar() {
-  const searchParams = useSearchParams();
-  const urlYear = Number(searchParams.get("year"));
-  const urlMonth = Number(searchParams.get("month"));
-
+export default function Calendar({year, month} : { year: number, month: number}) {
   const daysInAWeek: Array<{ day: number; name: string }> = [
     { day: 0, name: "日" },
     { day: 1, name: "月" },
@@ -20,7 +15,7 @@ export default function Calendar() {
 
   const cells = Array.from({ length: 42 }, (_, i) => ({
     index: i,
-    date: cellIndexToDate(i, urlYear, urlMonth - 1),
+    date: cellIndexToDate(i, year, month),
   }));
 
   return (
@@ -39,7 +34,7 @@ export default function Calendar() {
       </div>
       <div className="grid grid-cols-7 gap-2 mt-2 divide-x divide-y divide-gray-200 ">
         {cells.map(({ index, date }) => (
-          <CalendarCell key={index} date={date} />
+          <CalendarCell key={index} date={date} year={year} month={month} />
         ))}
       </div>
     </>

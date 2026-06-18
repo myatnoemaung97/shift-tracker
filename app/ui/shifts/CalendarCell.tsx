@@ -1,11 +1,7 @@
 import { clsx } from "clsx";
-import { useSearchParams } from "next/navigation";
 import { isHoliday, getHolidayName } from "@/app/lib/calendarUtils";
 
-export default function CalendarCell({ date }: { date: Date }) {
-  const searchParams = useSearchParams();
-  const urlYear = Number(searchParams.get("year"));
-  const urlMonth = Number(searchParams.get("month"));
+export default function CalendarCell({ date, year, month }: { date: Date, year: number, month: number }) {
   const today = new Date();
 
   const isToday =
@@ -13,8 +9,8 @@ export default function CalendarCell({ date }: { date: Date }) {
     today.getMonth() === date.getMonth() &&
     today.getDate() === date.getDate();
   const IsNotPartOfMonth =
-    (!isToday && date.getMonth() !== urlMonth - 1) ||
-    date.getFullYear() !== urlYear;
+    (!isToday && date.getMonth() !== month) ||
+    date.getFullYear() !== year;
   const isWeekend =
     !isToday &&
     !IsNotPartOfMonth &&

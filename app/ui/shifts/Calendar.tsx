@@ -1,22 +1,17 @@
-'use client'
-
 import MonthHeader from "@/app/ui/shifts/MonthHeader";
 import CalendarGrid from "@/app/ui/shifts/CalendarGrid";
-import { useSearchParams, redirect } from "next/navigation";
 
-export default function Calendar() {
-  const today = new Date();
-
-  const searchParams = useSearchParams();
-
-  if (!searchParams.get('month') || !searchParams.get('year')) {
-    redirect(`/shifts?year=${today.getFullYear()}&month=${today.getMonth() + 1}`);
-  }
-
+export default function Calendar({
+  year,
+  month,
+}: {
+  year: number;
+  month: number;
+}) {
   return (
     <div className="border border-gray-100 shadow-xl rounded-lg px-2">
-      <MonthHeader />
-      <CalendarGrid />
+      <MonthHeader year={year} month={month} />
+      <CalendarGrid year={year} month={month} />
     </div>
   );
 }
