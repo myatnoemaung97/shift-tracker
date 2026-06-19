@@ -2,7 +2,7 @@ import Link from "next/link";
 import { deleteJob } from "@/app/lib/actions";
 import { FaRegEdit } from "react-icons/fa";
 import { HiOutlineTrash } from "react-icons/hi2";
-import { HiPlus } from "react-icons/hi";
+import { FaPlus } from "react-icons/fa6";
 
 export function CreateJob() {
   return (
@@ -10,7 +10,7 @@ export function CreateJob() {
       href="/jobs/create"
       className="flex items-center px-5 py-3 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 transition-colors"
     >
-      <HiPlus className="size-5 me-1" /> <span>勤務先を追加</span>
+      <FaPlus className="size-5 me-1" /> <span>勤務先を追加</span>
     </Link>
   );
 }

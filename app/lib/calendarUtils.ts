@@ -1,5 +1,6 @@
 import { holidays } from "@/app/lib/holidays";
 import { ShiftWithJob } from "@/app/lib/types";
+import { weekDays } from "@/app/lib/weekDays";
 
 export function cellIndexToDate(
   cellIndex: number,
@@ -43,7 +44,28 @@ export function cellIndexToShifts(
   shiftsByDate: Map<string, ShiftWithJob[]>,
 ): ShiftWithJob[] {
   const date = cellIndexToDate(cellIndex, year, month);
-  const key = date.toISOString().split("T")[0];
+  const key = formatLocalDate(date);
 
   return shiftsByDate.get(key) ?? [];
+}
+
+export function isSameDay(a: Date | null, b: Date) {
+  return (
+    a !== null &&
+    a.getFullYear() === b.getFullYear() &&
+    a.getMonth() === b.getMonth() &&
+    a.getDate() === b.getDate()
+  );
+}
+
+export function dateToWeekday(date: Date) {
+  return weekDays[date.getDay()];
+}
+
+export function formatLocalDate(date: Date): string {
+  return [
+    date.getFullYear(),
+    String(date.getMonth() + 1).padStart(2, "0"),
+    String(date.getDate()).padStart(2, "0"),
+  ].join("-");
 }

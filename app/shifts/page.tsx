@@ -1,13 +1,11 @@
 import { redirect } from "next/navigation";
-import Calendar from "@/app/ui/shifts/Calendar";
-import SelectedDayPanel from "@/app/ui/shifts/SelectedDayPanel";
-import JobLegend from "@/app/ui/shifts/JobLegend";
 import { prisma } from "@/app/lib/prisma";
+import CalendarView from "@/app/ui/shifts/calendar/CalendarView";
 
 export default async function Page({
   searchParams,
 }: {
-  searchParams: Promise<{ year?: string; month?: string; day?: string }>;
+  searchParams: Promise<{ year?: string; month?: string }>;
 }) {
   const params = await searchParams;
   const today = new Date();
@@ -22,20 +20,13 @@ export default async function Page({
 
   if (!params.year || !params.month) {
     redirect(
-      `/shifts?year=${today.getFullYear()}&month=${today.getMonth() + 1}&day=${today.getDate()}`,
+      `/shifts?year=${today.getFullYear()}&month=${today.getMonth() + 1}`,
     );
   }
 
   return (
     <>
-      <Calendar
-        shifts={shifts}
-        year={Number(params.year)}
-        month={Number(params.month) - 1}
-        day={Number(params.day)}
-      />
-      <JobLegend jobs={jobs} />
-      <SelectedDayPanel />
+      <CalendarView shifts={shifts} jobs={jobs} year={Number(params.year)} month={Number(params.month) - 1} />
     </>
   );
 }

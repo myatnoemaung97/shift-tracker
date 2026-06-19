@@ -4,24 +4,24 @@ import { clsx } from "clsx";
 import { isHoliday } from "@/app/lib/calendarUtils";
 import { ShiftWithJob } from "@/app/lib/types";
 import { colorMap, JobColor } from "@/app/lib/colorMap";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 
 export default function CalendarCell({
   date,
   year,
   month,
-  day,
+  isSelected,
   shifts,
+  setSelectedDate,
 }: {
   date: Date;
   year: number;
   month: number;
-  day: number;
+  isSelected: boolean;
   shifts: ShiftWithJob[];
+  setSelectedDate: (date: Date | null) => void;
 }) {
-  const router = useRouter();
   const today = new Date();
-  const styles = colorMap[shifts[0]?.job.color as JobColor];
 
   const isToday =
     today.getFullYear() === date.getFullYear() &&
@@ -38,20 +38,19 @@ export default function CalendarCell({
 
   const isAHoliday = isHoliday(date);
 
-  const isSelectedDay =
-    date.getDate() === day &&
-    date.getMonth() === month &&
-    date.getFullYear() === year;
+  function handleClick(clickedDate: Date) {
+    setSelectedDate(clickedDate);
 
-  function handleClick() {
-    router.push(
-      `/shifts?year=${date.getFullYear()}&month=${date.getMonth() + 1}&day=${date.getDate()}`,
-    );
+    if (clickedDate.getMonth() !== month) {
+      redirect(
+        `/shifts?year=${clickedDate.getFullYear()}&month=${clickedDate.getMonth() + 1}`,
+      );
+    }
   }
 
   return (
     <button
-      onClick={handleClick}
+      onClick={() => handleClick(date)}
       className={clsx(
         "flex flex-col justify-between items-end text-end text-sm cursor-pointer h-[40px] md:h-[65px] hover:border hover:border-indigo-500 transition-colors",
         {
@@ -59,7 +58,7 @@ export default function CalendarCell({
 
           "text-red-500": isWeekend,
           "text-indigo-500 font-bold ": isToday,
-          "border-2 border-indigo-500": isSelectedDay,
+          "border-2 border-indigo-500": isSelected,
         },
       )}
     >
@@ -67,7 +66,7 @@ export default function CalendarCell({
         {isToday && (
           <div
             className={clsx("bg-indigo-500 size-1 rounded-full", {
-              "mt-1": isSelectedDay,
+              "mt-1": isSelected,
             })}
           ></div>
         )}
@@ -82,10 +81,10 @@ export default function CalendarCell({
         </span>
       </div>
       <div className="pb-1 pe-1">
-        <div className="flex gap-1 justify-end items-start">
+        <div className="flex gap-1 justify-end items-start mt-1">
           {shifts.map((shift) => (
             <div
-              className={`size-2 md:size-4 rounded-full ${styles.background}`}
+              className={`size-1 md:size-2 md:size-4 rounded-full ${colorMap[shift.job.color as JobColor].background}`}
               key={shift.id}
             ></div>
           ))}
