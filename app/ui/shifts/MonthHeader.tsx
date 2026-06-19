@@ -29,27 +29,27 @@ export default function MonthHeader({
     year === today.getFullYear() && month === today.getMonth();
 
   return (
-    <div className="p-3 flex justify-between items-center">
+    <div className="py-2 px-1 flex justify-between items-center">
       <button
         disabled={isDisabled}
         type="button"
         onClick={() => handleClick("left")}
         className={clsx(
-          "w-10 h-10 border border-gray-200 shadow-xs rounded-md flex items-center justify-center",
+          "size-8 md:size-10 border border-gray-200 shadow-xs rounded-md flex items-center justify-center cursor-pointer",
           isDisabled ? "text-gray-400 cursor-default" : "cursor-pointer",
         )}
       >
-        <FaChevronLeft />
+        <FaChevronLeft className="size-3 md:size-4" />
       </button>
-      <span className="text-lg font-semibold">
+      <span className="text-md md:text-lg font-semibold">
         {year}年 {month + 1}月
       </span>
       <button
         type="button"
         onClick={() => handleClick("right")}
-        className="w-10 h-10 border border-gray-200 shadow-xs rounded-md flex items-center justify-center cursor-pointer"
+        className="size-8 md:size-10  border border-gray-200 shadow-xs rounded-md flex items-center justify-center cursor-pointer"
       >
-        <FaChevronRight />
+        <FaChevronRight className="size-3 md:size-4" />
       </button>
     </div>
   );

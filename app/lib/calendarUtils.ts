@@ -1,4 +1,5 @@
 import { holidays } from "@/app/lib/holidays";
+import { ShiftWithJob } from "@/app/lib/types";
 
 export function cellIndexToDate(
   cellIndex: number,
@@ -19,7 +20,7 @@ export function cellIndexToDate(
   return date;
 }
 
-function formatDate(date: Date) {
+function formatDate(date: Date): string {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
@@ -33,4 +34,16 @@ export function isHoliday(date: Date): boolean {
 
 export function getHolidayName(date: Date): string | undefined {
   return holidays[formatDate(date) as keyof typeof holidays];
+}
+
+export function cellIndexToShifts(
+  cellIndex: number,
+  year: number,
+  month: number,
+  shiftsByDate: Map<string, ShiftWithJob[]>,
+): ShiftWithJob[] {
+  const date = cellIndexToDate(cellIndex, year, month);
+  const key = date.toISOString().split("T")[0];
+
+  return shiftsByDate.get(key) ?? [];
 }
