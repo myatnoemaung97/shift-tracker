@@ -1,12 +1,9 @@
-import { Client } from "pg";
+'use client'
+import { toast } from "sonner";
 
-export default async function TEST() {
-  const client = new Client({
-    connectionString: process.env.DATABASE_URL,
-  });
+export default function TEST() {
+  toast.success("connected");
 
-  await client.connect();
-  console.log("connected");
 
   return (
     <div>

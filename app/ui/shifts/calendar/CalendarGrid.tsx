@@ -21,8 +21,8 @@ export default function CalendarGrid({
   shifts: ShiftWithJob[];
   year: number;
   month: number;
-  selectedDate: Date | null;
-  setSelectedDate: (date: Date | null) => void;
+  selectedDate: Date;
+  setSelectedDate: (date: Date) => void;
 }) {
   const shiftsByDate = new Map<string, ShiftWithJob[]>();
 

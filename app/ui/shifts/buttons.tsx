@@ -1,10 +1,26 @@
-import { FaPlus } from "react-icons/fa6";
+import { deleteShift } from "@/app/lib/actions/shifts";
+import { Trash2 } from 'lucide-react';
 
-export function CreateShift() {
+export function DeleteShiftButton({
+  id,
+  year,
+  month,
+}: {
+  id: string;
+  year: number;
+  month: number;
+}) {
+  const action = deleteShift.bind(null, id, year, month);
+
   return (
-    <button className="flex items-center px-5 py-3 bg-indigo-500 text-white cursor-pointer rounded-md hover:bg-indigo-600 transition-colors">
-      <FaPlus className="size-3 md:size-4" />
-      <span>シフトを追加</span>
-    </button>
+    <form action={action}>
+      <button
+        type="submit"
+        className="flex gap-2 w-full text-left px-2 py-1.5 text-xs hover:bg-accent rounded-sm cursor-pointer"
+      >
+        <Trash2 className="size-3" />
+        削除
+      </button>
+    </form>
   );
 }

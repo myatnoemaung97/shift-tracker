@@ -21,7 +21,7 @@ export default function MonthHeader({
     date.setMonth(date.getMonth() + (direction === "right" ? 1 : -1));
 
     router.replace(
-      `${pathname}?year=${date.getFullYear()}&month=${date.getMonth() + 1}`,
+      `${pathname}?year=${date.getFullYear()}&month=${date.getMonth() + 1}&selected=urlSelectedDate`,
     );
   }
 

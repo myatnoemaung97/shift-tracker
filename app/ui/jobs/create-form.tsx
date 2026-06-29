@@ -1,13 +1,14 @@
 "use client";
 
-import { createJob, State } from "@/app/lib/actions";
+import { createJob } from "@/app/lib/actions/jobs";
+import { JobState } from "@/app/lib/types";
 import { colorMap } from "@/app/lib/colorMap";
 import { useState, useActionState } from "react";
 import clsx from "clsx";
 import { FaCheck } from "react-icons/fa6";
 
 export default function Page() {
-  const initialState: State = { message: null, errors: {}, values: {} };
+  const initialState: JobState = { message: null, errors: {}, values: {} };
   const [state, formAction] = useActionState(createJob, initialState);
   const [selectedColor, setSelectedColor] = useState(
     state?.values?.color ?? "",

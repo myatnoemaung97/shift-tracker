@@ -1,7 +1,8 @@
 "use client";
 
 import type { Job } from "@/app/generated/prisma/browser";
-import { updateJob, State } from "@/app/lib/actions";
+import { updateJob } from "@/app/lib/actions/jobs";
+import { JobState } from "@/app/lib/types";
 import { colorMap } from "@/app/lib/colorMap";
 import { useState } from "react";
 import { clsx } from "clsx";
@@ -11,7 +12,7 @@ import { useActionState } from "react";
 export default function EditJobForm({ job }: { job: Job }) {
   const updateJobWithId = updateJob.bind(null, job.id);
 
-  const initialState: State = { values: {}, errors: {}, message: null };
+  const initialState: JobState = { values: {}, errors: {}, message: null };
   const [state, formAction] = useActionState(updateJobWithId, initialState);
   const [selectedColor, setSelectedColor] = useState(
     state?.values?.color ?? job.color,

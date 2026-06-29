@@ -1,67 +1,13 @@
 "use server";
+
 import { prisma } from "@/app/lib/prisma";
-import { z } from "zod";
-import { colorMap } from "@/app/lib/colorMap";
 import { redirectAndRevalidate } from "@/app/lib/helpers";
-
-const Job = z.object({
-  id: z.string(),
-  name: z.string().trim().min(1, {
-    error: "勤務先の名前は必須です。",
-  }),
-  hourlyWage: z.coerce.number().gt(0, {
-    error: "時給は0以上である必要があります。",
-  }),
-  color: z.literal(Object.keys(colorMap), {
-    error: "色を選択してください。",
-  }),
-  defaultStart: z.string().optional(),
-  defaultEnd: z.string().optional(),
-  defaultRestMinutes: z.coerce
-    .number()
-    .gt(0, {
-      error: "通常の休憩は0以上である必要があります。",
-    })
-    .optional(),
-  userId: z.string(),
-  createdAt: z.iso.datetime(),
-  updatedAt: z.iso.datetime(),
-});
-
-const CreateJob = Job.omit({
-  id: true,
-  userId: true,
-  createdAt: true,
-  updatedAt: true,
-});
-
-const UpdateJob = Job.omit({
-  id: true,
-  userId: true,
-  createdAt: true,
-  updatedAt: true,
-});
-
-export type State = {
-  errors?: {
-    name?: string[];
-    hourlyWage?: string[];
-    color?: string[];
-    defaultRestMinutes?: string[];
-  };
-  values?: {
-    name?: string;
-    hourlyWage?: string;
-    color?: string;
-    defaultStart?: string;
-    defaultEnd?: string;
-    defaultRestMinutes?: string;
-  };
-  message?: string | null;
-};
+import { CreateJob, UpdateJob } from "@/app/lib/zod/schemas";
+import { JobState } from "@/app/lib/types";
+import { createClient } from "@/app/lib/supabase/server";
 
 export async function createJob(
-  prevState: State | undefined,
+  prevState: JobState | undefined,
   formData: FormData,
 ) {
   const validatedFields = CreateJob.safeParse({
@@ -99,8 +45,15 @@ export async function createJob(
     defaultRestMinutes,
   } = validatedFields.data;
 
-  const user = await prisma.user.findFirst();
+  const supabase = await createClient();
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
 
+  if (error || !user) {
+    return { message: "ログインが必要です。" };
+  }
   if (user) {
     try {
       await prisma.job.create({
@@ -122,12 +75,12 @@ export async function createJob(
     }
   }
 
-  redirectAndRevalidate("/jobs");
+  redirectAndRevalidate("/jobs", `success=job-created`);
 }
 
 export async function updateJob(
   id: string,
-  prevState: State | undefined,
+  prevState: JobState | undefined,
   formData: FormData,
 ) {
   const validatedFields = UpdateJob.safeParse({
@@ -183,15 +136,33 @@ export async function updateJob(
     return { message: "Database Error: Failed to Update Invoice." };
   }
 
-  redirectAndRevalidate("/jobs");
+  redirectAndRevalidate("/jobs", `success=job-updated`);
 }
 
-export async function deleteJob(id: string) {
-  await prisma.job.delete({
+export async function archiveJob(id: string) {
+  await prisma.job.update({
     where: {
-      id: id,
+      id,
+    },
+    data: {
+      archivedAt: new Date(),
     },
   });
 
-  redirectAndRevalidate("/jobs");
+
+  redirectAndRevalidate("/jobs" , `success=job-archived`);
+}
+
+export async function restoreJob(id: string) {
+  await prisma.job.update({
+    where: {
+      id,
+    },
+    data: {
+      archivedAt: null,
+    },
+  });
+
+
+  redirectAndRevalidate("/settings" , `success=job-restored`);
 }

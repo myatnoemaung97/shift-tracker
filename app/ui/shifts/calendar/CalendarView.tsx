@@ -13,16 +13,15 @@ export default function CalendarView({
   jobs,
   year,
   month,
+  urlSelected,
 }: {
   shifts: ShiftWithJob[];
   jobs: Job[];
   year: number;
   month: number;
+  urlSelected: number;
 }) {
-  const today = new Date();
-  const [selectedDate, setSelectedDate] = useState(
-    today.getFullYear() === year && today.getMonth() === month ? today : null,
-  );
+  const [selectedDate, setSelectedDate] = useState(new Date(year, month, urlSelected));
 
   const panelShifts = shifts.filter((shift) => {
     const start = shift.start;
@@ -36,7 +35,7 @@ export default function CalendarView({
 
   return (
     <>
-      <div className="border border-gray-100 shadow-md rounded-lg px-1">
+      <div className="border border-gray-100 shadow-md rounded-lg px-1 bg-white">
         <MonthHeader year={year} month={month} />
         <CalendarGrid
           shifts={shifts}
@@ -48,7 +47,7 @@ export default function CalendarView({
       </div>
       <JobLegend jobs={jobs} />
       {selectedDate && (
-        <SelectedDayPanel date={selectedDate} shifts={panelShifts} />
+        <SelectedDayPanel date={selectedDate} shifts={panelShifts} jobs={jobs} />
       )}
     </>
   );

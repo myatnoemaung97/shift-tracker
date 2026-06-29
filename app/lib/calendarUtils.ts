@@ -29,8 +29,8 @@ function formatDate(date: Date): string {
   return `${year}-${month}-${day}`;
 }
 
-export function isHoliday(date: Date): boolean {
-  return formatDate(date) in holidays;
+export function dateToHoliday(date: Date): string | undefined {
+  return holidays[formatDate(date) as keyof typeof holidays];
 }
 
 export function getHolidayName(date: Date): string | undefined {
@@ -68,4 +68,12 @@ export function formatLocalDate(date: Date): string {
     String(date.getMonth() + 1).padStart(2, "0"),
     String(date.getDate()).padStart(2, "0"),
   ].join("-");
+}
+
+export function dateToString(time: Date) {
+  return time.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
 }
