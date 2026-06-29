@@ -6,6 +6,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import PageToast from "@/app/ui/PageToast";
+import { Suspense } from "react";
 
 export default function DashboardLayout({
   children,
@@ -14,7 +15,9 @@ export default function DashboardLayout({
 }) {
   return (
     <SidebarProvider>
-      <PageToast />
+      <Suspense fallback={null}>
+        <PageToast />
+      </Suspense>
       <AppSidebar />
 
       <SidebarInset>
