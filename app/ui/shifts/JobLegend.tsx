@@ -9,7 +9,7 @@ export default function JobLegend({ jobs }: { jobs: Job[] }) {
         <div
           key={job.id}
           className={clsx("flex items-center justify-start", {
-            "text-muted-foreground": job.archived,
+            "text-muted-foreground": job.archivedAt,
           })}
         >
           <div
@@ -17,7 +17,7 @@ export default function JobLegend({ jobs }: { jobs: Job[] }) {
           ></div>
           <span className="text-sm font-medium">
             {job.name}
-            {job.archived && (
+            {job.archivedAt && (
               <span className="text-xs text-muted-foreground">
                 （アーカイブ済み）
               </span>
