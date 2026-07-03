@@ -1,10 +1,11 @@
-'use server';
+"use server";
 
 import { revalidatePath } from "next/cache";
 import { CreateShift } from "@/app/lib/zod/schemas";
 import { ShiftState } from "@/app/lib/types";
 import { prisma } from "@/app/lib/prisma";
 import { redirectAndRevalidate } from "@/app/lib/helpers";
+import { cookies } from "next/headers";
 
 export async function createShift(
   date: Date,
@@ -77,6 +78,7 @@ export async function createShift(
     };
   }
 
+  (await cookies()).set("toast", "シフトを作成しました。", { maxAge: 3 });
   redirectAndRevalidate(
     `/shifts?year=${date.getFullYear()}&month=${date.getMonth() + 1}&selected=${date.getDate()}`,
   );
@@ -88,8 +90,6 @@ export async function updateShift(
   _prevState: ShiftState | undefined,
   formData: FormData,
 ) {
-  console.log("updateShift");
-
   const validatedFields = CreateShift.safeParse({
     jobId: formData.get("jobId"),
     start: formData.get("start"),
@@ -156,18 +156,19 @@ export async function updateShift(
     };
   }
 
+  (await cookies()).set("toast", "シフトを更新しました。", { maxAge: 3 });
   redirectAndRevalidate(
     `/shifts?year=${date.getFullYear()}&month=${date.getMonth() + 1}&selected=${date.getDate()}`,
   );
 }
 
 export async function deleteShift(id: string, year: number, month: number) {
-  console.log("deleteShift");
   await prisma.shift.delete({
     where: {
       id: id,
     },
   });
 
+  (await cookies()).set("toast", "シフトを削除しました。", { maxAge: 3 });
   revalidatePath(`/shifts?year=${year}&month=${month}`);
 }

@@ -8,6 +8,7 @@ import {
   BriefcaseBusiness,
   LayoutDashboard,
   Settings,
+  JapaneseYen
 } from "lucide-react";
 
 import {
@@ -25,13 +26,13 @@ import {
 } from "@/components/ui/sidebar";
 
 const navigation = [
+  // {
+  //   title: "ホーム",
+  //   href: "/",
+  //   icon: LayoutDashboard,
+  // },
   {
-    title: "ホーム",
-    href: "/",
-    icon: LayoutDashboard,
-  },
-  {
-    title: "Jobs",
+    title: "勤務先",
     href: "/jobs",
     icon: BriefcaseBusiness,
   },
@@ -39,6 +40,11 @@ const navigation = [
     title: "シフト",
     href: "/shifts",
     icon: CalendarDays,
+  },
+  {
+    title: "収入",
+    href: "/earnings",
+    icon: JapaneseYen,
   },
   {
     title: "設定",
@@ -66,7 +72,7 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
 
       <SidebarContent className="bg-white">
         <SidebarGroup>
-          <SidebarGroupLabel>Navigation</SidebarGroupLabel>
+          <SidebarGroupLabel>ナビゲーション</SidebarGroupLabel>
 
           <SidebarGroupContent>
             <SidebarMenu>

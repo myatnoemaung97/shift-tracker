@@ -121,7 +121,7 @@ export default function ShiftForm({
                   <SelectGroup>
                     {jobs.map(
                       (job) =>
-                        (!job.archivedAt || mode === 'edit') && ( 
+                        (!job.archivedAt || mode === "edit") && (
                           <SelectItem key={job.id} value={job.id}>
                             <div className="flex items-center gap-2">
                               <div
@@ -130,11 +130,17 @@ export default function ShiftForm({
                                   colorMap[job.color].background,
                                 )}
                               />
-                              <span className={clsx({
-                                "text-muted-foreground": job.archivedAt,
-                              })}>
+                              <span
+                                className={clsx({
+                                  "text-muted-foreground": job.archivedAt,
+                                })}
+                              >
                                 {job.name}
-                                { job.archivedAt && <span className="text-muted-foreground">（アーカイブ済み）</span> }
+                                {job.archivedAt && (
+                                  <span className="text-muted-foreground">
+                                    （アーカイブ済み）
+                                  </span>
+                                )}
                               </span>
                             </div>
                           </SelectItem>

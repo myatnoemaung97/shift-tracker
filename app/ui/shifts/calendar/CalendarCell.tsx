@@ -3,10 +3,13 @@
 import { clsx } from "clsx";
 import { dateToHoliday } from "@/app/lib/calendarUtils";
 import { ShiftWithJob } from "@/app/lib/types";
-import { colorMap, JobColor } from "@/app/lib/colorMap";
+import { colorMap } from "@/app/lib/colorMap";
 import { useRouter } from "next/navigation";
 import { calculateShiftTotals } from "@/app/lib/shiftUtils";
 import { FaTriangleExclamation } from "react-icons/fa6";
+import { HolidayPeriod } from "@/app/generated/prisma/browser";
+import { FaCircle } from "react-icons/fa6";
+import { holidayIcons } from "@/app/lib/constants/holiday";
 
 export default function CalendarCell({
   date,
@@ -15,6 +18,9 @@ export default function CalendarCell({
   isSelected,
   shifts,
   setSelectedDate,
+  weeklyHours,
+  isWeeklyLimitExceeded,
+  holidayPeriod,
 }: {
   date: Date;
   year: number;
@@ -22,6 +28,9 @@ export default function CalendarCell({
   isSelected: boolean;
   shifts: ShiftWithJob[];
   setSelectedDate: (date: Date) => void;
+  weeklyHours: number;
+  isWeeklyLimitExceeded: boolean;
+  holidayPeriod: HolidayPeriod | undefined;
 }) {
   const today = new Date();
   const router = useRouter();
@@ -69,14 +78,23 @@ export default function CalendarCell({
 
           "text-red-500": isWeekend,
           "text-indigo-500 font-bold ": isToday,
-          "border-2 border-indigo-500": isSelected,
-          relative: totalMinutes > 480,
+          "bg-red-200": isWeeklyLimitExceeded,
+          "ring-2 ring-inset !ring-indigo-500": isSelected,
         },
       )}
     >
-      {totalMinutes > 480 && (
-        <FaTriangleExclamation className="absolute top-1 left-1 text-yellow-400 text-[10px] md:text-[14px]" />
+      <div className="absolute top-1 left-1 flex items-center text-[6px] md:text-[14px] md:gap-1">
+        {totalMinutes > 480 && (
+          <FaTriangleExclamation className="text-yellow-400" />
+        )}
+        {holidayPeriod && (
+        <div>
+          {holidayIcons[holidayPeriod.name]}
+        </div>
       )}
+      </div>
+
+      
       <div className="flex flex-col items-center me-1">
         {isToday && (
           <div
@@ -99,7 +117,7 @@ export default function CalendarCell({
         <div className="flex gap-1 justify-end items-start mt-1">
           {shifts.map((shift) => (
             <div
-              className={`size-1 md:size-3 rounded-full ${colorMap[shift.job.color as JobColor].background}`}
+              className={`size-1 md:size-3 rounded-full ${colorMap[shift.job.color].background}`}
               key={shift.id}
             ></div>
           ))}

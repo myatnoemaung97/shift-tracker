@@ -2,12 +2,22 @@ import { ShiftWithJob } from "@/app/lib/types";
 import { dateToString } from "@/app/lib/calendarUtils";
 import { colorMap } from "@/app/lib/colorMap";
 import { clsx } from "clsx";
-import ShiftActionButton  from "@/app/ui/shifts/selectedDayPanel/ShiftActionButton";
+import ShiftActionButton from "@/app/ui/shifts/selectedDayPanel/ShiftActionButton";
 import { calculateShiftEarnings } from "@/app/lib/shiftUtils";
 import { Job } from "@/app/generated/prisma/browser";
+import { calculateWorkedMinutes } from "@/app/lib/shiftUtils";
 
-export default function ShiftCard({ shift, jobs }: { shift: ShiftWithJob; jobs: Job[] }) {
+export default function ShiftCard({
+  shift,
+  jobs,
+}: {
+  shift: ShiftWithJob;
+  jobs: Job[];
+}) {
   const estimatedSalary = calculateShiftEarnings(shift);
+  const totalWorkedMinutes = calculateWorkedMinutes(shift);
+  const hours = Math.floor(totalWorkedMinutes / 60);
+  const minutes = totalWorkedMinutes % 60;
 
   return (
     <div className="flex justify-between items-start p-2 border border-gray-100 rounded-lg">
@@ -25,7 +35,8 @@ export default function ShiftCard({ shift, jobs }: { shift: ShiftWithJob; jobs: 
           {dateToString(shift.start) + " - " + dateToString(shift.end)}
         </span>
         <span className="text-xs">
-           休憩 {shift.restMinutes}分 · ¥{estimatedSalary}(推定)
+          {hours}時 {minutes}分 · 休憩 {shift.restMinutes}分 · ¥
+          {estimatedSalary}(推定)
         </span>
       </div>
       <ShiftActionButton jobs={jobs} shift={shift} />

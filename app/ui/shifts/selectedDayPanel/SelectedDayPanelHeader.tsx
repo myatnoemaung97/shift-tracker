@@ -4,17 +4,21 @@ import { clsx } from "clsx";
 import { Job } from "@/app/generated/prisma/browser";
 import CreateShiftButton from "@/app/ui/shifts/CreateShiftButton";
 import DayLimitWarning from "@/app/ui/shifts/selectedDayPanel/DayLimitWarning";
+import { HolidayPeriod } from "@/app/generated/prisma/browser";
+import { holidayIcons } from "@/app/lib/constants/holiday";
 
 export default function SelectedDayPanelHeader({
   jobs,
   date,
   totalMinutes,
   totalEarnings,
+  holidayPeriod,
 }: {
   jobs: Job[];
   date: Date;
   totalMinutes: number;
   totalEarnings: number;
+  holidayPeriod: HolidayPeriod | undefined;
 }) {
   const holiday = dateToHoliday(date);
   const hours = Math.floor(totalMinutes / 60);
@@ -24,10 +28,19 @@ export default function SelectedDayPanelHeader({
     <>
       <div className="flex justify-between items-start">
         <div className="flex flex-col text-sm">
-          <span className={clsx("font-semibold", holiday && "text-red-500")}>
-            {`${date.getFullYear()}年 ${date.getMonth() + 1}月 ${date.getDate()}日`}
-            {` (${dateToWeekday(date)})`}
-          </span>
+          <div>
+            <span className={clsx("font-semibold", holiday && "text-red-500")}>
+              {`${date.getFullYear()}年 ${date.getMonth() + 1}月 ${date.getDate()}日`}
+              {` (${dateToWeekday(date)})`}
+            </span>
+            {holidayPeriod && (
+              <span className="text-red-500 font-semibold">
+                {" "}
+                · {holidayIcons[holidayPeriod.name]}
+                {holidayPeriod.name}
+              </span>
+            )}
+          </div>
           {holiday && <span className="text-red-500 text-xs">{holiday}</span>}
           {totalMinutes > 0 ? (
             <span className="text-xs mt-1">

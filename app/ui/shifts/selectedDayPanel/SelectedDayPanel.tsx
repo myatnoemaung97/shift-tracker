@@ -1,7 +1,7 @@
 import { ShiftWithJob } from "@/app/lib/types";
 import SelectedDayPanelHeader from "@/app/ui/shifts/selectedDayPanel/SelectedDayPanelHeader";
 import ShiftCard from "@/app/ui/shifts/selectedDayPanel/ShiftCard";
-import { Job } from "@/app/generated/prisma/browser";
+import { HolidayPeriod, Job } from "@/app/generated/prisma/browser";
 import { calculateShiftTotals } from "@/app/lib/shiftUtils";
 import Image from "next/image";
 
@@ -9,20 +9,23 @@ export default function SelectedDayPanel({
   date,
   shifts,
   jobs,
+  holidayPeriod,
 }: {
   date: Date;
   shifts: ShiftWithJob[];
   jobs: Job[];
+  holidayPeriod: HolidayPeriod | undefined;
 }) {
   const totals = calculateShiftTotals(shifts);
 
   return (
-    <div className="w-full mt-1 p-2 flex flex-col border border-gray-100 shadow-md rounded-lg bg-white">
+    <div className="w-full mt-3 p-2 flex flex-col border border-gray-100 shadow-md rounded-lg bg-white">
       <SelectedDayPanelHeader
         jobs={jobs}
         date={date}
         totalMinutes={Math.round(totals.totalMinutes)}
         totalEarnings={Math.round(totals.totalEarnings)}
+        holidayPeriod={holidayPeriod}
       />
       {totals.totalEarnings > 0 ? (
         <div className="flex flex-col gap-2 mt-2">

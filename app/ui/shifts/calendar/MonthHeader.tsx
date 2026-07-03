@@ -2,20 +2,20 @@
 
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useRouter, usePathname } from "next/navigation";
-import { clsx } from "clsx";
 
 export default function MonthHeader({
   year,
   month,
+  setSelectedDate,
 }: {
   year: number;
   month: number;
+  setSelectedDate: (date: Date) => void;
 }) {
-  const today = new Date();
   const pathname = usePathname();
   const router = useRouter();
 
-  function handleClick(direction: "left" | "right") {
+  function handleMonthChange(direction: "left" | "right") {
     const date = new Date(year, month);
 
     date.setMonth(date.getMonth() + (direction === "right" ? 1 : -1));
@@ -25,28 +25,39 @@ export default function MonthHeader({
     );
   }
 
-  const isDisabled =
-    year === today.getFullYear() && month === today.getMonth();
+  function handleTodayButtonClick() {
+    const today = new Date();
+    router.replace(
+      `${pathname}?year=${today.getFullYear()}&month=${today.getMonth() + 1}&selected=${today.getDate()}`,
+    );
+
+    setSelectedDate(today);
+  }
 
   return (
     <div className="py-2 px-1 flex justify-between items-center">
       <button
-        disabled={isDisabled}
         type="button"
-        onClick={() => handleClick("left")}
-        className={clsx(
-          "size-8 md:size-10 border border-gray-200 shadow-xs rounded-md flex items-center justify-center cursor-pointer",
-          isDisabled ? "text-gray-400 cursor-default" : "cursor-pointer",
-        )}
+        onClick={() => handleMonthChange("left")}
+        className="size-8 md:size-10 border border-gray-200 shadow-xs rounded-md flex items-center justify-center cursor-pointer"
       >
         <FaChevronLeft className="size-3 md:size-4" />
       </button>
-      <span className="text-md md:text-lg font-semibold">
-        {year}年 {month + 1}月
-      </span>
+      <div className="flex items-center gap-2">
+        <span className="text-md md:text-lg font-semibold">
+          {year}年 {month + 1}月
+        </span>
+        <button
+          onClick={() => handleTodayButtonClick()}
+          className="border border-gray-500 text-sm px-2 py-1 rounded-md bg-white hover:bg-gray-100 transition-colors"
+        >
+          今日
+        </button>
+      </div>
+
       <button
         type="button"
-        onClick={() => handleClick("right")}
+        onClick={() => handleMonthChange("right")}
         className="size-8 md:size-10  border border-gray-200 shadow-xs rounded-md flex items-center justify-center cursor-pointer"
       >
         <FaChevronRight className="size-3 md:size-4" />

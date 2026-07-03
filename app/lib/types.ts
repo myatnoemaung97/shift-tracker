@@ -63,3 +63,19 @@ export type LoginState = {
   };
   message?: string;
 };
+
+export type HolidayState = {
+  errors: {
+    name?: string[];
+    startDate?: string[];
+    endDate?: string[];
+  };
+
+  values: {
+    name?: string;
+    startDate?: string;
+    endDate?: string;
+  };
+
+  message: string | null;
+};

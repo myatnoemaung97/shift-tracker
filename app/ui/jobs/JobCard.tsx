@@ -1,4 +1,4 @@
-import { colorMap, JobColor } from "@/app/lib/colorMap";
+import { colorMap } from "@/app/lib/colorMap";
 import { Job } from "@/app/generated/prisma/browser";
 import { Coffee, Clock, CalendarClock, ChevronRight } from "lucide-react";
 import { clsx } from "clsx";
@@ -11,7 +11,7 @@ export default function JobCard({ job }: { job: Job }) {
     border: string;
     ring: string;
     backgroundSoft: string;
-  } = colorMap[job.color as JobColor];
+  } = colorMap[job.color];
 
   return (
     <div
@@ -23,12 +23,12 @@ export default function JobCard({ job }: { job: Job }) {
       <div className="flex justify-between">
         <div className="flex flex-col gap-5">
           <div>
-            <h2 className="font-bold text-md mb-1">{job.name}</h2>
-            <span className="text-xs">
+            <h2 className="font-bold text-base mb-1 md:text-lg">{job.name}</h2>
+            <span className="text-xs md:text-sm">
               時給：
               <span className="font-semibold">¥{String(job.hourlyWage)}</span>
             </span>
-            <div className="flex justify-start text-xs gap-4">
+            <div className="flex justify-start text-xs gap-4 md:text-sm">
               <div className="flex items-center gap-2">
                 <Clock className="size-4" />
                 <div>
@@ -67,7 +67,7 @@ export default function JobCard({ job }: { job: Job }) {
               </div>
             </div>
           </div>
-          <div className="text-xs flex justify-start gap-5">
+          <div className="text-xs flex justify-start gap-5 md:text-sm">
             <div>
               <h3 className="mb-1">今月の勤務時間</h3>
               <span className="font-semibold">40時</span>
@@ -83,7 +83,7 @@ export default function JobCard({ job }: { job: Job }) {
 
       <div
         className={clsx(
-          "text-xs p-2 rounded-lg flex flex-col items-start gap-2",
+          "text-xs p-2 rounded-lg flex flex-col items-start gap-2 md:text-sm",
           style.backgroundSoft,
         )}
       >

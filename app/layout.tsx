@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/sonner";
+import { notoSansJp } from '@/app/ui/fonts';``
 
 export const metadata: Metadata = {
   title: "Shifto",
@@ -15,7 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja">
-      <body>
+      <body className={`${notoSansJp.className} antialiased`}>
         <TooltipProvider>
           <Toaster richColors position="top-center" duration={3000} />
           {children}

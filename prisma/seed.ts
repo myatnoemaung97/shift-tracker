@@ -89,150 +89,123 @@ async function main() {
 
   await prisma.shift.createMany({
     data: [
-      // Week 1
+      // =========================
+      // Week 1 (Normal)
+      // =========================
       {
-        start: new Date(2026, 5, 1, 9, 0),
-        end: new Date(2026, 5, 1, 17, 0),
+        start: new Date(2026, 6, 1, 9, 0),
+        end: new Date(2026, 6, 1, 17, 0),
         restMinutes: 60,
         jobId: lawson.id,
       },
       {
-        start: new Date(2026, 5, 2, 17, 0),
-        end: new Date(2026, 5, 2, 22, 0),
-        restMinutes: 15,
-        jobId: restaurant.id,
-      },
-      {
-        start: new Date(2026, 5, 4, 10, 0),
-        end: new Date(2026, 5, 4, 18, 0),
-        restMinutes: 30,
-        jobId: hotel.id,
-      },
-      {
-        start: new Date(2026, 5, 6, 9, 0),
-        end: new Date(2026, 5, 6, 13, 0),
-        restMinutes: 15,
-        jobId: lawson.id,
-      },
-      {
-        start: new Date(2026, 5, 6, 15, 0),
-        end: new Date(2026, 5, 6, 20, 0),
+        start: new Date(2026, 6, 3, 17, 0),
+        end: new Date(2026, 6, 3, 22, 0),
         restMinutes: 15,
         jobId: restaurant.id,
       },
 
-      // Week 2
+      // =========================
+      // Rolling week exceeding 28 hours
+      // July 6 - July 12
+      // Total = 33 hours
+      // =========================
       {
-        start: new Date(2026, 5, 8, 9, 0),
-        end: new Date(2026, 5, 8, 17, 0),
-        restMinutes: 60,
+        start: new Date(2026, 6, 6, 9, 0),
+        end: new Date(2026, 6, 6, 17, 0),
+        restMinutes: 60, // 7h
         jobId: lawson.id,
       },
       {
-        start: new Date(2026, 5, 10, 18, 0),
-        end: new Date(2026, 5, 10, 22, 0),
-        restMinutes: 15,
-        jobId: restaurant.id,
-      },
-      {
-        start: new Date(2026, 5, 12, 10, 0),
-        end: new Date(2026, 5, 12, 18, 0),
-        restMinutes: 30,
+        start: new Date(2026, 6, 7, 10, 0),
+        end: new Date(2026, 6, 7, 18, 0),
+        restMinutes: 60, // 7h
         jobId: hotel.id,
       },
       {
-        start: new Date(2026, 5, 13, 9, 0),
-        end: new Date(2026, 5, 13, 17, 0),
-        restMinutes: 60,
+        start: new Date(2026, 6, 9, 17, 0),
+        end: new Date(2026, 6, 9, 22, 0),
+        restMinutes: 0, // 5h
+        jobId: restaurant.id,
+      },
+      {
+        start: new Date(2026, 6, 10, 9, 0),
+        end: new Date(2026, 6, 10, 17, 0),
+        restMinutes: 60, // 7h
+        jobId: hotel.id,
+      },
+      {
+        start: new Date(2026, 6, 12, 9, 0),
+        end: new Date(2026, 6, 12, 16, 0),
+        restMinutes: 0, // 7h
+        jobId: cafe.id,
+      },
+
+      // =========================
+      // Normal week
+      // =========================
+      {
+        start: new Date(2026, 6, 15, 10, 0),
+        end: new Date(2026, 6, 15, 16, 0),
+        restMinutes: 30, // 5.5h
+        jobId: hotel.id,
+      },
+
+      // =========================
+      // Daily limit exceeded
+      // July 18
+      // Working = 9.5h
+      // =========================
+      {
+        start: new Date(2026, 6, 18, 9, 0),
+        end: new Date(2026, 6, 18, 19, 0),
+        restMinutes: 30,
         jobId: lawson.id,
       },
 
-      // Week 3
+      // =========================
+      // Rest of month (Normal)
+      // =========================
       {
-        start: new Date(2026, 5, 15, 11, 0),
-        end: new Date(2026, 5, 15, 19, 0),
-        restMinutes: 45,
-        jobId: restaurant.id,
-      },
-      {
-        start: new Date(2026, 5, 17, 10, 0),
-        end: new Date(2026, 5, 17, 18, 0),
-        restMinutes: 30,
-        jobId: hotel.id,
-      },
-      {
-        start: new Date(2026, 5, 18, 9, 0),
-        end: new Date(2026, 5, 18, 17, 0),
-        restMinutes: 60,
-        jobId: lawson.id,
-      },
-
-      // Triple shift showcase
-      {
-        start: new Date(2026, 5, 20, 8, 0),
-        end: new Date(2026, 5, 20, 12, 0),
-        restMinutes: 15,
-        jobId: lawson.id,
-      },
-      {
-        start: new Date(2026, 5, 20, 13, 0),
-        end: new Date(2026, 5, 20, 17, 0),
-        restMinutes: 15,
-        jobId: hotel.id,
-      },
-      {
-        start: new Date(2026, 5, 20, 18, 0),
-        end: new Date(2026, 5, 20, 22, 0),
-        restMinutes: 15,
-        jobId: restaurant.id,
-      },
-
-      // Week 4
-      {
-        start: new Date(2026, 5, 22, 9, 0),
-        end: new Date(2026, 5, 22, 17, 0),
-        restMinutes: 60,
-        jobId: lawson.id,
-      },
-      {
-        start: new Date(2026, 5, 23, 17, 0),
-        end: new Date(2026, 5, 23, 22, 0),
+        start: new Date(2026, 6, 21, 17, 0),
+        end: new Date(2026, 6, 21, 22, 0),
         restMinutes: 15,
         jobId: restaurant.id,
       },
       {
-        start: new Date(2026, 5, 25, 10, 0),
-        end: new Date(2026, 5, 25, 18, 0),
-        restMinutes: 30,
+        start: new Date(2026, 6, 23, 10, 0),
+        end: new Date(2026, 6, 23, 18, 0),
+        restMinutes: 60,
         jobId: hotel.id,
       },
       {
-        start: new Date(2026, 5, 27, 9, 0),
-        end: new Date(2026, 5, 27, 17, 0),
+        start: new Date(2026, 6, 25, 9, 0),
+        end: new Date(2026, 6, 25, 17, 0),
         restMinutes: 60,
         jobId: lawson.id,
       },
-
-      // End of month
       {
-        start: new Date(2026, 5, 28, 18, 0),
-        end: new Date(2026, 5, 28, 22, 0),
+        start: new Date(2026, 6, 28, 17, 0),
+        end: new Date(2026, 6, 28, 22, 0),
         restMinutes: 15,
         jobId: restaurant.id,
       },
       {
-        start: new Date(2026, 5, 29, 10, 0),
-        end: new Date(2026, 5, 29, 18, 0),
-        restMinutes: 30,
-        jobId: hotel.id,
-      },
-      {
-        start: new Date(2026, 5, 30, 9, 0),
-        end: new Date(2026, 5, 30, 17, 0),
+        start: new Date(2026, 6, 30, 10, 0),
+        end: new Date(2026, 6, 30, 18, 0),
         restMinutes: 60,
-        jobId: lawson.id,
+        jobId: hotel.id,
       },
     ],
+  });
+
+  await prisma.holidayPeriod.createMany({
+    data: {
+      name: "夏休み",
+      startDate: new Date(2026, 6, 21), // July 21, 2026
+      endDate: new Date(2026, 7, 31), // August 31, 2026
+      userId: user.id,
+    },
   });
 
   console.log("✅ Seed completed");

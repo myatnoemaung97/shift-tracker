@@ -171,6 +171,25 @@ export const CreateShift = z
     }
   });
 
+export const CreateHoliday = z
+  .object({
+    name: z.string().trim().min(1, {
+      error: "長期休暇名を入力してください。",
+    }),
+
+    startDate: z.coerce.date({
+      error: "開始日を入力してください。",
+    }),
+
+    endDate: z.coerce.date({
+      error: "終了日を入力してください。",
+    }),
+  })
+  .refine((data) => data.endDate >= data.startDate, {
+    path: ["endDate"],
+    message: "終了日は開始日以降である必要があります。",
+  });
+
 /**
  * For update shift form input
  * same shape as CreateShift for now
@@ -188,3 +207,8 @@ export type UpdateJobInput = z.infer<typeof UpdateJob>;
 export type ShiftInput = z.infer<typeof Shift>;
 export type CreateShiftInput = z.infer<typeof CreateShift>;
 export type UpdateShiftInput = z.infer<typeof UpdateShift>;
+
+export const UpdateHoliday = CreateHoliday;
+
+export type CreateHolidayInput = z.infer<typeof CreateHoliday>;
+export type UpdateHolidayInput = z.infer<typeof UpdateHoliday>;

@@ -24,6 +24,7 @@ enum JobColor {
   purple
   pink
   slate
+  indigo
 }
 
 model User {
@@ -33,7 +34,8 @@ model User {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  jobs Job[]
+  jobs           Job[]
+  holidayPeriods HolidayPeriod[]
 }
 
 model Job {
@@ -61,4 +63,17 @@ model Shift {
   job         Job      @relation(fields: [jobId], references: [id])
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
+}
+
+model HolidayPeriod {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  startDate DateTime @map("start_date")
+  endDate   DateTime @map("end_date")
+  userId    String   @map("user_id")
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("holiday_periods")
 }

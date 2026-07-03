@@ -5,6 +5,7 @@ import { redirectAndRevalidate } from "@/app/lib/helpers";
 import { CreateJob, UpdateJob } from "@/app/lib/zod/schemas";
 import { JobState } from "@/app/lib/types";
 import { createClient } from "@/app/lib/supabase/server";
+import { cookies } from "next/headers";
 
 export async function createJob(
   prevState: JobState | undefined,
@@ -75,7 +76,8 @@ export async function createJob(
     }
   }
 
-  redirectAndRevalidate("/jobs", `success=job-created`);
+  (await cookies()).set("toast", "勤務先を作成しました。", { maxAge: 3 });
+  redirectAndRevalidate("/jobs");
 }
 
 export async function updateJob(
@@ -136,7 +138,8 @@ export async function updateJob(
     return { message: "Database Error: Failed to Update Invoice." };
   }
 
-  redirectAndRevalidate("/jobs", `success=job-updated`);
+  (await cookies()).set("toast", "勤務先を更新しました。", { maxAge: 3 });
+  redirectAndRevalidate("/jobs");
 }
 
 export async function archiveJob(id: string) {
@@ -149,8 +152,8 @@ export async function archiveJob(id: string) {
     },
   });
 
-
-  redirectAndRevalidate("/jobs" , `success=job-archived`);
+  (await cookies()).set("toast", "勤務先を非表示にしました。", { maxAge: 3 });
+  redirectAndRevalidate("/jobs");
 }
 
 export async function restoreJob(id: string) {
@@ -163,6 +166,6 @@ export async function restoreJob(id: string) {
     },
   });
 
-
-  redirectAndRevalidate("/settings" , `success=job-restored`);
+  (await cookies()).set("toast", "勤務先を復元しました。", { maxAge: 3 });
+  redirectAndRevalidate("/settings");
 }

@@ -3,7 +3,7 @@ import { prisma } from "@/app/lib/prisma";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { IoIosArrowBack } from "react-icons/io";
-import { colorMap, JobColor } from "@/app/lib/colorMap";
+import { colorMap } from "@/app/lib/colorMap";
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
@@ -15,11 +15,11 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
     },
   });
 
-  const styles = colorMap[job?.color as JobColor]
-
   if (!job) {
     notFound();
   }
+  
+  const styles = colorMap[job.color];
 
   return (
     <>

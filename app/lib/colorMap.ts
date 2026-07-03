@@ -1,4 +1,14 @@
-export const colorMap = {
+import { JobColor } from "@/app/generated/prisma/browser";
+
+export const colorMap: Record<
+  JobColor,
+  {
+    background: string;
+    backgroundSoft: string;
+    border: string;
+    ring: string;
+  }
+> = {
   red: {
     background: "bg-red-500",
     backgroundSoft: "bg-red-100",
@@ -71,6 +81,4 @@ export const colorMap = {
     border: "border-l-slate-500",
     ring: "ring-slate-500",
   },
-} as const;
-
-export type JobColor = keyof typeof colorMap;
+};

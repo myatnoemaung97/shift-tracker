@@ -7,16 +7,21 @@ import {
 } from "@/components/ui/sidebar";
 import PageToast from "@/app/ui/PageToast";
 import { Suspense } from "react";
+import { cookies } from "next/headers";
 
-export default function DashboardLayout({
+
+export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const cookieStore = await cookies();
+  const toastMessage = cookieStore.get("toast")?.value;
+
   return (
     <SidebarProvider>
       <Suspense fallback={null}>
-        <PageToast />
+        <PageToast message={toastMessage} />
       </Suspense>
       <AppSidebar />
 

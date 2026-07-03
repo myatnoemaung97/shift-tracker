@@ -1,14 +1,18 @@
 import JobCard from "@/app/ui/jobs/JobCard";
 import { prisma } from "@/app/lib/prisma";
 import { CreateJobButton } from "@/app/ui/jobs/buttons";
+import { getUser } from "@/app/lib/actions/auth";
 
 export default async function Page() {
+  const user = await getUser();
+
   const jobs = (await prisma.job.findMany({
     orderBy: {
       createdAt: "desc",
     },
     where: {
       archivedAt: null,
+      userId: user.id,
     },
   }));
 
